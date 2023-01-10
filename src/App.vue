@@ -1,29 +1,50 @@
 <template>
+  <!--13. v-show : 처음부터 두개의 div를 렌더링한 후, style을 이용해서 나타나거나 감추도록 함 ( display: none; ) => toggle같은 것을 자주 해줄 때 유용함.-->
+  <div v-show = "toggle">true</div>
+  <div v-show = "!toggle">false</div>
+  <button @click = "onToggle">Toggle</button>
+
+  <!--13. v-if : 처음부터 조건에 맞는 div만 렌더링한다. => 런타임동안 조건이 거의 바뀌지 않을 때 사용하면 유용함. -->
+  <div v-if="toggle">true</div>
+  <div v-else>false</div>
+  <button @click = "onToggle">Toggle</button>
+
   <div class="container">
 
     <h2>To-Do List</h2>
 
     <form
       @submit.prevent = "onSubmit"
-      class="d-flex"
     >
-      <div class="flex-grow-1 mr-2">
-        <input 
-          type="text" 
-          v-model = "todo"
-          class = "form-control"
-          placeholder="Type new to-do"
-        >
+      <div class="d-flex">
+        <div class="flex-grow-1 mr-2">
+          <input 
+            type="text" 
+            v-model = "todo"
+            class = "form-control"
+            placeholder="Type new to-do"
+          >
+        </div>
+
+        <div>
+          <button 
+            type="submit"
+            class="btn btn-outline-primary" 
+          >
+            Add
+          </button>
+        </div>
+
       </div>
 
-      <div>
-        <button 
-          type="submit"
-          class="btn btn-outline-primary" 
-        >
-          Add
-        </button>
+      <!--유저가 아무것도 안쓰고 추가를 할때마다 에러메세지를 띄우므로(자주 바뀌므로) v-if대신 v-show를 쓰는 것이 효율적! -->
+      <div 
+        v-show="hasError" 
+        style="color:red;"
+      >
+        Error! This field cannot be empty.
       </div>
+      
     </form>
 
     <div 
@@ -46,27 +67,39 @@
 
   export default{
     setup(){
-
+      const toggle = ref(false);
       const todo = ref(''); // 처음 input박스는 공란('')으로 설정
       const todos = ref([
         { id: 1, subject : "휴대폰 사기" },
         { id: 2, subject : "장보기" },
       ]); // 처음 todo리스트는 빈 배열으로 설정
+      const hasError = ref(false); // 에러확인용
+
+      const onToggle = () => {
+        toggle.value = !toggle.value; // toggle ref를 반대로 바꿔줌. ( true => false 또는 false => true)
+      }
 
       const onSubmit = () => {
-        //console.log(todo.value);
-        //e.preventDefault(); // form을 submit하면, 화면을 reloading( refresh) 하는데, 이를 방지. => <form @sumit.prevent = "onSubmit"></form>로 대체함!!
-        todos.value.push({
-          id : Date.now(), // 유니크한 key를 만들어내기 위함.
-          subject : todo.value
-        });
+        if(todo.value === ''){ // todo 값이 공란이면
+          hasError.value = true; // 에러
+        }else{ // todo 값이 공란이 아님(에러없음)
+          todos.value.push({ // 리스트에 todo를 추가해줌.
+            id : Date.now(), // 유니크한 key를 만들어내기 위함.
+            subject : todo.value
+          });
+          hasError.value = false; // 잘 써서 추가가 됐으면, 에러 없음으로 다시 바꿔줌!
+        }
+        
       };
 
 
 
       return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
+        toggle,
         todo,
         todos,
+        hasError,
+        onToggle, //Toggle버튼
         onSubmit,
       }; 
     }
