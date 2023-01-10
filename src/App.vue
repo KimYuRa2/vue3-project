@@ -1,9 +1,16 @@
 <template>
-  <!-- v-bind : class  ===  : class -->
-  <!-- v-on : click  ===  @ click -->
-  <div v-bind:class = "nameClass">{{ name }}</div>
-  <input v-bind:type="type" v-bind:value="name">
-  <button class="btn btn-outline-primary" v-on:click="updateName">updateName</button>
+  <input 
+   type="text" 
+   v-model = "name"
+  >
+
+  <button 
+   class="btn btn-outline-primary" 
+   @click="onSubmit"
+  >
+    Click
+  </button>
+
 </template>
 
 <script>
@@ -13,21 +20,16 @@
     setup(){
 
       const name = ref('kossie');
-      const type = ref('number'); // input타입을 number로 설정
-      //const type = ref('text'); //  input타입을 text로 설정
-      const nameClass = ref(''); 
 
-      const updateName = () => {
-        name.value = 'corder!!'; 
-        nameClass.value = 'name';
+      const onSubmit = () => {
+        console.log(name.value);
       }
+
 
 
       return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
         name,
-        updateName,
-        type,
-        nameClass
+        onSubmit
       }; 
     }
   }
