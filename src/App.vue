@@ -26,8 +26,16 @@
       </div>
     </form>
 
-
-    {{ todos }}
+    <div class="card mt-2">
+      <div class="card-body p-2">
+        {{ todos[0].subject }}
+      </div>
+    </div>
+    <div class="card mt-2">
+      <div class="card-body p-2">
+        {{ todos[1].subject }}
+      </div>
+    </div>
 
   </div>
   
@@ -41,7 +49,10 @@
     setup(){
 
       const todo = ref(''); // 처음 input박스는 공란('')으로 설정
-      const todos = ref([]); // 처음 todo리스트는 빈 배열으로 설정
+      const todos = ref([
+        { id: 1, subject : "휴대폰 사기" },
+        { id: 2, subject : "장보기" },
+      ]); // 처음 todo리스트는 빈 배열으로 설정
 
       const onSubmit = () => {
         //console.log(todo.value);
