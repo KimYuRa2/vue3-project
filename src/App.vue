@@ -63,7 +63,10 @@
             type="checkbox"
             v-model="todo.completed"
           >
-          <label class="form-check-label">
+          <label 
+            class="form-check-label"
+            :class = "{ todo : todo.completed }"
+          >
             {{ todo.subject }}
           </label>
         </div>
@@ -84,6 +87,10 @@
       const todo = ref( '' ); // 처음 input박스는 공란('')으로 설정
       const todos = ref( [] ); // 처음 todo리스트는 빈 배열으로 설정
       const hasError = ref(false); // 에러확인용
+      const todoStyle = {
+        textDecoration : 'line-through', //자바스크립트로 style을 설정할 때는 text-decoration이 아닌!! 'textDecoration'이라 쓰기.
+        color : 'gray',
+      }
 
       const onToggle = () => {
         toggle.value = !toggle.value; // toggle ref를 반대로 바꿔줌. ( true => false 또는 false => true)
@@ -111,6 +118,7 @@
         todo,
         todos,
         hasError,
+        todoStyle,
         onToggle, //Toggle버튼
         onSubmit,
       }; 
@@ -126,5 +134,9 @@
  }
  .hi{
   background-color : yellow;
+ }
+ .todo {
+  color : gray;
+  text-decoration: line-through;
  }
 </style>
