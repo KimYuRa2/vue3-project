@@ -37,7 +37,45 @@
 </template>
 
 <script>
-    export default {}
+    import { ref } from 'vue';
+
+    export default {
+        setup( props, context ) {
+            const todo = ref( '' ); // 처음 input박스는 공란('')으로 설정
+            const hasError = ref(false); // 에러확인용
+
+            const onSubmit = () => {
+                if(todo.value === ''){ // todo 값이 공란이면
+                    hasError.value = true; // 에러
+                }else{ // todo 값이 공란이 아님(에러없음)
+                    /* 폼 컴포넌트 옮기는 중! (todos가 App.vue컴포넌트에 있어서 여기서 처리 못하므로 일단 주석처리함.) */
+                    // todos.value.push({ // 리스트에 todo를 추가해줌.
+                    //     id : Date.now(), // 유니크한 key를 만들어내기 위함.
+                    //     subject : todo.value,
+                    //     completed : false, // todo리스트 체크박스 확인 
+                    // });
+                
+                    //submit을 하면, context.emit('add-todo', {... 이부분이 실행되고,'add-todo'이벤트를 통해, id,subject,completed데이터를 부모컴포넌트로 보내준다.
+                    //그러면 App.vue - <TodoSimpleForm @add-todo="addTodo" /> 에서 addTodo함수가 실행되는 것.
+                    context.emit('add-todo', {  // * 자식컴포넌트 => 부모컴포넌트로 이벤트('add-todo')보내기. context.emit('이벤트이름', {부모컴포넌트로 보내주고싶은 데이터});
+                        id : Date.now(), // 유니크한 key를 만들어내기 위함.
+                        subject : todo.value,
+                        completed : false, // todo리스트 체크박스 확인 
+                    });
+                    hasError.value = false; // 잘 써서 추가가 됐으면, 에러 없음으로 다시 바꿔줌!
+                    todo.value = ''; // todo 추가하고 나면, empty string으로 input란 비우기.
+                }
+                
+            };
+
+            return{
+                todo,
+                hasError,
+                onSubmit,
+            }
+        }
+
+    }
 </script>
 
 <style>
