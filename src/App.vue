@@ -49,15 +49,20 @@
       
     </form>
 
+    <!-- todo 리스트가 공란일 때 띄울 텍스트 -->
+    <div v-if = "!todos.length">
+      추가된 Todo가 없습니다.
+    </div>
+
     <!-- todo 리스트 -->
     <div 
-      v-for = "todo in todos"
+      v-for = "(todo, index) in todos"
       :key = "todo.id"
       class="card mt-2"
     >
       <!-- todo 체크박스 -->
-      <div class="card-body p-2">
-        <div class="form-check">
+      <div class="card-body p-2 d-flex align-items-center">
+        <div class="form-check flex-grow-1">
           <input 
             class="form-check-input" 
             type="checkbox"
@@ -69,6 +74,16 @@
           >
             {{ todo.subject }}
           </label>
+        </div>
+
+        <!-- todo 삭제버튼 -->
+        <div>
+          <button
+            class="btn btn-danger btn-sm"
+            @click = "deleteTodo( index )"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
@@ -111,6 +126,11 @@
         
       };
 
+      /* todo 삭제버튼 */
+      const deleteTodo = ( index ) => {
+        todos.value.splice( index, 1); // todos배열에서, index(삭제버튼을 누른 todo의 번호)부터 1개만 지워줌!!
+      }
+
 
 
       return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
@@ -121,6 +141,7 @@
         todoStyle,
         onToggle, //Toggle버튼
         onSubmit,
+        deleteTodo, // todo 삭제버튼
       }; 
     }
   }
