@@ -17,6 +17,7 @@
       @submit.prevent = "onSubmit"
     >
       <div class="d-flex">
+        <!-- todo 입력창 -->
         <div class="flex-grow-1 mr-2">
           <input 
             type="text" 
@@ -26,6 +27,7 @@
           >
         </div>
 
+        <!-- todo add버튼-->
         <div>
           <button 
             type="submit"
@@ -47,13 +49,24 @@
       
     </form>
 
+    <!-- todo 리스트 -->
     <div 
       v-for = "todo in todos"
       :key = "todo.id"
       class="card mt-2"
     >
+      <!-- todo 체크박스 -->
       <div class="card-body p-2">
-        {{ todo.subject }}
+        <div class="form-check">
+          <input 
+            class="form-check-input" 
+            type="checkbox"
+            v-model="todo.completed"
+          >
+          <label class="form-check-label">
+            {{ todo.subject }}
+          </label>
+        </div>
       </div>
     </div>
 
@@ -68,11 +81,8 @@
   export default{
     setup(){
       const toggle = ref(false);
-      const todo = ref(''); // 처음 input박스는 공란('')으로 설정
-      const todos = ref([
-        { id: 1, subject : "휴대폰 사기" },
-        { id: 2, subject : "장보기" },
-      ]); // 처음 todo리스트는 빈 배열으로 설정
+      const todo = ref( '' ); // 처음 input박스는 공란('')으로 설정
+      const todos = ref( [] ); // 처음 todo리스트는 빈 배열으로 설정
       const hasError = ref(false); // 에러확인용
 
       const onToggle = () => {
@@ -85,9 +95,11 @@
         }else{ // todo 값이 공란이 아님(에러없음)
           todos.value.push({ // 리스트에 todo를 추가해줌.
             id : Date.now(), // 유니크한 key를 만들어내기 위함.
-            subject : todo.value
+            subject : todo.value,
+            completed : false, // todo리스트 체크박스 확인 
           });
           hasError.value = false; // 잘 써서 추가가 됐으면, 에러 없음으로 다시 바꿔줌!
+          todo.value = ''; // todo 추가하고 나면, empty string으로 input란 비우기.
         }
         
       };
