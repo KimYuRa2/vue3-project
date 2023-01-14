@@ -25,7 +25,7 @@
 
     <!-- 사용할컴포넌트이름 :props로(자식컴포에게)보낼이름 = "(부모컴포에서)보낼테이터" -->
     <!-- => 자식컴포넌트에서 (:)todos 라는 이름으로, 부모컴포의 "todos"데이터에 접근가능하게됨-->
-    <TodoList :todos = "todos" />
+    <TodoList :todos="todos" @toggle-todo="toggleTodo" />
     
 
   </div>
@@ -62,6 +62,14 @@
         todos.value.push(todo);        
       };
 
+      /* todo리스트 체크박스 toggle이벤트 */
+      const toggleTodo = (index) => {
+        console.log(todos.value[index]);
+        todos.value[index].completed = !todos.value[index].completed;
+        console.log(todos.value[index]);
+
+      }
+
       
 
       /* todo 삭제버튼 */
@@ -77,6 +85,7 @@
         todoStyle,
         onToggle, //Toggle버튼
         addTodo,
+        toggleTodo,
         deleteTodo, // todo 삭제버튼
       }; 
     }

@@ -11,7 +11,8 @@
           <input 
             class="form-check-input" 
             type="checkbox"
-            v-model="todo.completed"
+            :value="todo.completed" 
+            @change="toggleTodo(index)"
           >
           <label 
             class="form-check-label"
@@ -36,7 +37,6 @@
 </template>
 
 <script>
-    import { ref } from 'vue';
 
     export default {
         /* props : ['todos'] 
@@ -50,6 +50,18 @@
                 /* type종류 : String, Number, Boolean, Array, Object, Function, Promise(or any other constructor) */
                 type: Array, // String이라고 할 시, vue warn(오류)이 뜸 
                 required : true, //항상 todo리스트 배열이 필요하기 때문.
+            }
+        },
+        setup( props, context ) {
+            const toggleTodo = (index) => {
+                context.emit('toggle-todo', index); // toggle-todo라는 이벤트로 index를 부모컴포로 보냄
+
+            };
+
+
+            return {
+                toggleTodo ,
+
             }
         }
         
