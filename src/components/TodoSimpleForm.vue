@@ -48,12 +48,6 @@
                 if(todo.value === ''){ // todo 값이 공란이면
                     hasError.value = true; // 에러
                 }else{ // todo 값이 공란이 아님(에러없음)
-                    /* 폼 컴포넌트 옮기는 중! (todos가 App.vue컴포넌트에 있어서 여기서 처리 못하므로 일단 주석처리함.) */
-                    // todos.value.push({ // 리스트에 todo를 추가해줌.
-                    //     id : Date.now(), // 유니크한 key를 만들어내기 위함.
-                    //     subject : todo.value,
-                    //     completed : false, // todo리스트 체크박스 확인 
-                    // });
                 
                     //submit을 하면, context.emit('add-todo', {... 이부분이 실행되고,'add-todo'이벤트를 통해, id,subject,completed데이터를 부모컴포넌트로 보내준다.
                     //그러면 App.vue - <TodoSimpleForm @add-todo="addTodo" /> 에서 addTodo함수가 실행되는 것.

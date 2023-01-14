@@ -13,7 +13,7 @@
 
     <h2>To-Do List</h2>
 
-    <!-- 사용할컴포넌트이름 @add-todo=“함수이름” -->
+    <!-- 사용할컴포넌트이름 @자식컴포(에서발생할)이벤트이름 = “(실행될)부모컴포함수이름” -->
     <TodoSimpleForm @add-todo="addTodo" />
 
 
@@ -23,39 +23,10 @@
       추가된 Todo가 없습니다.
     </div>
 
-    <!-- todo 리스트 -->
-    <div 
-      v-for = "(todo, index) in todos"
-      :key = "todo.id"
-      class="card mt-2"
-    >
-      <!-- todo 체크박스 -->
-      <div class="card-body p-2 d-flex align-items-center">
-        <div class="form-check flex-grow-1">
-          <input 
-            class="form-check-input" 
-            type="checkbox"
-            v-model="todo.completed"
-          >
-          <label 
-            class="form-check-label"
-            :class = "{ todo : todo.completed }"
-          >
-            {{ todo.subject }}
-          </label>
-        </div>
-
-        <!-- todo 삭제버튼 -->
-        <div>
-          <button
-            class="btn btn-danger btn-sm"
-            @click = "deleteTodo( index )"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
+    <!-- 사용할컴포넌트이름 :props로(자식컴포에게)보낼이름 = "(부모컴포에서)보낼테이터" -->
+    <!-- => 자식컴포넌트에서 (:)todos 라는 이름으로, 부모컴포의 "todos"데이터에 접근가능하게됨-->
+    <TodoList :todos = "todos" />
+    
 
   </div>
   
@@ -65,10 +36,12 @@
 <script>
   import { ref } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
   import TodoSimpleForm from './components/TodoSimpleForm.vue';
+  import TodoList from './components/TodoList.vue';
 
   export default{
     components : {
-      TodoSimpleForm
+      TodoSimpleForm,
+      TodoList,
     },
 
     setup(){
@@ -86,21 +59,7 @@
 
       // * onSubmit => addTodo로 함수이름 변경!
       const addTodo = ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
-        console.log(todo);
-        todos.value.push(todo);
-        // if(todo.value === ''){ // todo 값이 공란이면
-        // hasError.value = true; // 에러
-        // }else{ // todo 값이 공란이 아님(에러없음)
-        // /* 폼 컴포넌트 옮기는 중! (todos가 App.vue컴포넌트에 있어서 여기서 처리 못하므로 일단 주석처리함.) */
-        // // todos.value.push({ // 리스트에 todo를 추가해줌.
-        // //     id : Date.now(), // 유니크한 key를 만들어내기 위함.
-        // //     subject : todo.value,
-        // //     completed : false, // todo리스트 체크박스 확인 
-        // // });
-        // hasError.value = false; // 잘 써서 추가가 됐으면, 에러 없음으로 다시 바꿔줌!
-        // todo.value = ''; // todo 추가하고 나면, empty string으로 input란 비우기.
-        // }
-                
+        todos.value.push(todo);        
       };
 
       
