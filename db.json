@@ -1,14 +1,19 @@
 {
-  
-  "todos" : [
+  "todos": [
     {
-      "id" : 1,
-      "content" : "hi"
+      "subject": "ㅁㄴㅇㄹ",
+      "completed": false,
+      "id": 1
     },
     {
-      "id" : 2,
-      "content" : "hi22"
+      "subject": "zxzxz",
+      "completed": false,
+      "id": 2
+    },
+    {
+      "subject": "asdf",
+      "completed": false,
+      "id": 3
     }
   ]
-  
 }

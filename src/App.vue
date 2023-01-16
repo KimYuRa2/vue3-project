@@ -33,6 +33,9 @@
     <!-- 사용할컴포넌트이름 @자식컴포(에서발생할)이벤트이름 = “(실행될)부모컴포함수이름” -->
     <TodoSimpleForm @add-todo="addTodo" />
 
+    <!--에러메세지-->
+    <div style="color:red;backgroundColor:yellow;">{{ error }}</div>
+
 
 
     <!-- todo 리스트가 공란일 때 띄울 텍스트 -->
@@ -58,6 +61,7 @@
   import { ref, computed } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
   import TodoSimpleForm from './components/TodoSimpleForm.vue';
   import TodoList from './components/TodoList.vue';
+  import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
 
   export default{
     components : {
@@ -78,9 +82,30 @@
         toggle.value = !toggle.value; // toggle ref를 반대로 바꿔줌. ( true => false 또는 false => true)
       }
 
+      const error = ref(''); // 에러메세지
+
       // * onSubmit => addTodo로 함수이름 변경!
       const addTodo = ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
-        todos.value.push(todo);        
+        error.value='';
+        
+        // 1) 데이터베이스에 투두를 저장(post http request)
+        axios.post('http://localhost:3000/todos', {
+          // id는 자동생성되므로 안보내도 됨! 
+          subject : todo.subject,
+          completed : todo.completed,
+        }).then( res => { // js에서 요청은 비동기적(응답 상태와 상관없이 다음 동작을 수행)으로 일어나게됨.(응답이 promise로 오게됨.). 그래서 응답이 끝나기도 전에 다음줄이 실행됨..(오류) => 그래서 then을 씀!
+          //  .then () : 위 요청(axios.post)이 끝나서 응답이 왔을 때! 실행되게 됨!!
+          console.log(res);
+
+          // 2) response가 오면 , todos 배열에 저장
+          todos.value.push(res.data);        
+        }).catch( err => {
+          // 응답 실패 시(err) 실행됨.
+          error.value = 'ERROR : Something went wrong!';
+          console.log(err);
+        });
+
+        
       };
 
       /* todo리스트 체크박스 toggle이벤트 */
@@ -134,6 +159,7 @@
         doubleCountMethod,
         searchText,
         filteredTodo,
+        error,
         
       }; 
     }
