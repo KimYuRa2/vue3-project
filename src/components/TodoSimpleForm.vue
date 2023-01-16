@@ -40,7 +40,8 @@
     import { ref } from 'vue';
 
     export default {
-        setup( props, context ) {
+      emits : [ 'add-todo' ],
+        setup( props, { emit } ) {
             const todo = ref( '' ); // 처음 input박스는 공란('')으로 설정
             const hasError = ref(false); // 에러확인용
 
@@ -51,7 +52,7 @@
                 
                     //submit을 하면, context.emit('add-todo', {... 이부분이 실행되고,'add-todo'이벤트를 통해, id,subject,completed데이터를 부모컴포넌트로 보내준다.
                     //그러면 App.vue - <TodoSimpleForm @add-todo="addTodo" /> 에서 addTodo함수가 실행되는 것.
-                    context.emit('add-todo', {  // * 자식컴포넌트 => 부모컴포넌트로 이벤트('add-todo')보내기. context.emit('이벤트이름', {부모컴포넌트로 보내주고싶은 데이터});
+                    emit('add-todo', {  // * 자식컴포넌트 => 부모컴포넌트로 이벤트('add-todo')보내기. context.emit('이벤트이름', {부모컴포넌트로 보내주고싶은 데이터});
                         id : Date.now(), // 유니크한 key를 만들어내기 위함.
                         subject : todo.value,
                         completed : false, // todo리스트 체크박스 확인 

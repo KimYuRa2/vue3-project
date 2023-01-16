@@ -52,14 +52,15 @@
                 required : true, //항상 todo리스트 배열이 필요하기 때문.
             }
         },
-        setup( props, context ) {
+        emits : [ 'toggle-todo', 'delete-todo' ],
+        setup( props, { emit } ) {
             const toggleTodo = (index) => {
-              context.emit('toggle-todo', index); // toggle-todo라는 이벤트로 index를 부모컴포로 보냄
+              emit('toggle-todo', index); // toggle-todo라는 이벤트로 index를 부모컴포로 보냄
 
             };
 
             const deleteTodo = ( index ) => { // 부모컴포넌트(App.vue)의 deleteTodo함수로 index값을 보내주는 함수.
-              context.emit('delete-todo', index); // delete-todo라는 이벤트로 index를 부모컴포로 보냄
+              emit('delete-todo', index); // delete-todo라는 이벤트로 index를 부모컴포로 보냄
             }
 
             return {
