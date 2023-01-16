@@ -13,6 +13,11 @@
 
     <h2>To-Do List</h2>
 
+    <h4>count : {{ count }}</h4>
+    <h4>doubleCountComputed : {{ doubleCountComputed }}</h4>
+    <h4>doubleCountMethod : {{ doubleCountMethod() }}</h4>
+    <button @click="count++">add One</button>
+
     <!-- 사용할컴포넌트이름 @자식컴포(에서발생할)이벤트이름 = “(실행될)부모컴포함수이름” -->
     <TodoSimpleForm @add-todo="addTodo" />
 
@@ -34,7 +39,7 @@
 </template>
 
 <script>
-  import { ref } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
+  import { ref, computed } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
   import TodoSimpleForm from './components/TodoSimpleForm.vue';
   import TodoList from './components/TodoList.vue';
 
@@ -78,6 +83,16 @@
       };
 
 
+      const count = ref(100);
+      const doubleCountComputed = computed( () => {
+         // doubleCountComputed에는 항상(별도의 행위를 하지 않아도) count값*2의 값을 가지고있게된다.
+        return count.value * 2;
+      });
+      const doubleCountMethod = () => {
+        return count.value * 2;
+      };
+
+
 
       return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
         toggle,
@@ -87,6 +102,10 @@
         addTodo,
         toggleTodo,
         deleteTodo, // todo 삭제버튼
+        count,
+        doubleCountComputed,
+        doubleCountMethod,
+        
       }; 
     }
   }
