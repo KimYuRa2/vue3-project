@@ -13,10 +13,22 @@
 
     <h2>To-Do List</h2>
 
-    <h4>count : {{ count }}</h4>
+    <!-- 23. computed 예제-->
+    <!-- <h4>count : {{ count }}</h4>
     <h4>doubleCountComputed : {{ doubleCountComputed }}</h4>
     <h4>doubleCountMethod : {{ doubleCountMethod() }}</h4>
-    <button @click="count++">add One</button>
+    <button @click="count++">add One</button> -->
+
+
+    <!-- 24. 검색기능 추가 -->
+    <input 
+      type="text" 
+      v-model = "searchText"
+      class = "form-control"
+      placeholder="Search"
+    >
+
+    <hr/>
 
     <!-- 사용할컴포넌트이름 @자식컴포(에서발생할)이벤트이름 = “(실행될)부모컴포함수이름” -->
     <TodoSimpleForm @add-todo="addTodo" />
@@ -24,13 +36,17 @@
 
 
     <!-- todo 리스트가 공란일 때 띄울 텍스트 -->
-    <div v-if = "!todos.length">
-      추가된 Todo가 없습니다.
+    <div v-if = "!filteredTodo.length">
+      추가된 Todo가 없습니다. There is nothing to display.
     </div>
 
     <!-- 사용할컴포넌트이름 :props로(자식컴포에게)보낼이름 = "(부모컴포에서)보낼테이터" -->
     <!-- => 자식컴포넌트에서 (:)todos 라는 이름으로, 부모컴포의 "todos"데이터에 접근가능하게됨-->
-    <TodoList :todos="todos" @toggle-todo="toggleTodo" @delete-todo="deleteTodo"/>
+    <TodoList 
+      :todos="filteredTodo" 
+      @toggle-todo="toggleTodo" 
+      @delete-todo="deleteTodo"
+    />
     
 
   </div>
@@ -83,6 +99,7 @@
       };
 
 
+      /* 23. computed 예제 */
       const count = ref(100);
       const doubleCountComputed = computed( () => {
          // doubleCountComputed에는 항상(별도의 행위를 하지 않아도) count값*2의 값을 가지고있게된다.
@@ -92,6 +109,16 @@
         return count.value * 2;
       };
 
+      /* 24. 검색 기능 추가 */
+      const searchText = ref('');
+      const filteredTodo = computed( () => {
+        if(searchText.value){ // empty string이 아니면(검색창이 빈창이 아니면)
+          return todos.value.filter(todo => { // filteredTodo에 포함시켜라
+            return todo.subject.includes(searchText.value); // todos배열(todo리스트목록) 안에서, subject가 , searchText의 값을 포함하는것을 return 
+          });
+        }
+        return todos.value;
+      });
 
 
       return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
@@ -105,6 +132,8 @@
         count,
         doubleCountComputed,
         doubleCountMethod,
+        searchText,
+        filteredTodo,
         
       }; 
     }
