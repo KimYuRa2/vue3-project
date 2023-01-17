@@ -60,7 +60,8 @@
           <a 
             v-if = "currentPage !== 1"
             class="page-link" 
-            href="#"
+            @click = "getTodos(currentPage - 1)"
+            style="cursor : pointer"
           >
             Previous
           </a>
@@ -71,7 +72,11 @@
           class= "page-item"
           :class= "currentPage === page ? 'active' : '' "
         >
-          <a class="page-link" href="#">
+          <a 
+            class="page-link" 
+            @click="getTodos(page)" 
+            style="cursor : pointer"
+          >
             {{ page }}
           </a>
         </li>
@@ -79,7 +84,8 @@
           <a 
             v-if=" numberOfPages !== currentPage "
             class="page-link" 
-            href="#"
+            @click = "getTodos(currentPage + 1)"
+            style="cursor : pointer"
           >
             Next
           </a>
@@ -108,7 +114,7 @@
       const toggle = ref(false);
       const todos = ref( [] ); // 처음 todo리스트는 빈 배열으로 설정
       const error = ref(''); // 에러메세지
-      const numberOfTodos = ref(0); // pagination 총 페이지 수 // initial paginagion: 0 
+      const numberOfTodos = ref(0); // pagination 총 todo 갯수 // initial paginagion: 0 
       const limit = 5; // pagination 페이지당 보여줄 데이터갯수
       const currentPage = ref(1); // pagination 처음 보여줄 페이지(현재페이지 : 기본 1)
       const numberOfPages = computed ( () => {
@@ -126,10 +132,11 @@
       }
 
       /* todos 데이터베이스를 조회해서 가져오는 함수 */
-      const getTodos = async () => {
+      const getTodos = async (page = currentPage.value ) => {
+        currentPage.value = page; // active클래스(포커스) 적용을 위함
         try{
           const res = await axios.get(
-            `http://localhost:3000/todos?_page=${currentPage.value}&_limit=${limit}`
+            `http://localhost:3000/todos?_page=${page}&_limit=${limit}`
           ); // 모든 todos데이터를 가져옴 + pagination 추가!!
           console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
           numberOfTodos.value =  res.headers['x-total-count'];
