@@ -85,28 +85,34 @@
       const error = ref(''); // 에러메세지
 
       // * onSubmit => addTodo로 함수이름 변경!
-      const addTodo = ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
+      const addTodo = async ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
         error.value='';
-        console.log("start시점");
         
-        // 1) 데이터베이스에 투두를 저장(post http request)
-        axios.post('http://localhost:3000/todos', {
-          // id는 자동생성되므로 안보내도 됨! 
-          subject : todo.subject,
-          completed : todo.completed,
-        }).then( res => { // js에서 요청은 비동기적(응답 상태와 상관없이 다음 동작을 수행)으로 일어나게됨.(응답이 promise로 오게됨.). 그래서 응답이 끝나기도 전에 다음줄이 실행됨..(오류) => 그래서 then을 씀!
-          //  .then () : 위 요청(axios.post)이 끝나서 응답이 왔을 때! 실행되게 됨!!
-          console.log(res);
-
+        try{
+          // 1) 데이터베이스에 투두를 저장(post http request)
+          const res = await axios.post('http://localhost:3000/todos', { // 비동기+await => 기다렸다가 결과물을 리턴해주면 , 변수 res에다가 결과값을 저장함.
+            // id는 자동생성되므로 안보내도 됨! 
+            subject : todo.subject,
+            completed : todo.completed,
+          });
           // 2) response가 오면 , todos 배열에 저장
           todos.value.push(res.data);        
-        }).catch( err => {
-          // 응답 실패 시(err) 실행됨.
+        } catch(err){
+          //응답 실패 시(err) 실행됨.
           error.value = 'ERROR : Something went wrong!';
           console.log(err);
-        });
-        console.log("end시점"); // 27. async(비동기)의 영향으로 start=> "end" => 저장된데이터 순으로 콘솔에 찍히게됨.
-        
+        }
+        // .then( res => { // js에서 요청은 비동기적(응답 상태와 상관없이 다음 동작을 수행)으로 일어나게됨.(응답이 promise로 오게됨.). 그래서 응답이 끝나기도 전에 다음줄이 실행됨..(오류) => 그래서 then을 씀!
+        //   //  .then () : 위 요청(axios.post)이 끝나서 응답이 왔을 때! 실행되게 됨!!
+        //   console.log(res);
+
+        //   // 2) response가 오면 , todos 배열에 저장
+        //   todos.value.push(res.data);        
+        // }).catch( err => {
+        //   // 응답 실패 시(err) 실행됨.
+        //   error.value = 'ERROR : Something went wrong!';
+        //   console.log(err);
+        // });
       };
 
       /* todo리스트 체크박스 toggle이벤트 */
