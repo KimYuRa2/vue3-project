@@ -50,6 +50,29 @@
       @toggle-todo="toggleTodo" 
       @delete-todo="deleteTodo"
     />
+
+    <hr/>
+
+    <!-- pagination -->
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#">Previous</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
     
 
   </div>
@@ -73,7 +96,10 @@
       const toggle = ref(false);
       const todos = ref( [] ); // 처음 todo리스트는 빈 배열으로 설정
       const error = ref(''); // 에러메세지
-      
+      const totalPage = ref(0); // pagination 총 페이지 수 // initial paginagion: 0 
+      const limit = 5; // pagination 페이지당 보여줄 데이터갯수
+      const page = 1; // pagination 처음 보여줄 페이지
+
       const todoStyle = {
         textDecoration : 'line-through', //자바스크립트로 style을 설정할 때는 text-decoration이 아닌!! 'textDecoration'이라 쓰기.
         color : 'gray',
@@ -87,8 +113,12 @@
       /* todos 데이터베이스를 조회해서 가져오는 함수 */
       const getTodos = async () => {
         try{
-          const res = await axios.get('http://localhost:3000/todos'); // 모든 todos데이터를 가져옴
-          console.log(res.data); // res.data = todos데이터 배열
+          const res = await axios.get(
+            `http://localhost:3000/todos?_page=${page.value}&_limit=${limit}`
+          ); // 모든 todos데이터를 가져옴 + pagination 추가!!
+          console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
+          totalPage.value =  res.headers['x-total-count'];
+          // console.log(res.data); // res.data = todos데이터 배열
           todos.value = res.data;
         } catch (err) {
           //응답 실패 시 실행됨.
