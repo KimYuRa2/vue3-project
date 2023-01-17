@@ -39,14 +39,14 @@
 
 
     <!-- todo 리스트가 공란일 때 띄울 텍스트 -->
-    <div v-if = "!filteredTodo.length">
+    <div v-if = "!todos.length">
       추가된 Todo가 없습니다. There is nothing to display.
     </div>
 
     <!-- 사용할컴포넌트이름 :props로(자식컴포에게)보낼이름 = "(부모컴포에서)보낼테이터" -->
     <!-- => 자식컴포넌트에서 (:)todos 라는 이름으로, 부모컴포의 "todos"데이터에 접근가능하게됨-->
     <TodoList 
-      :todos="filteredTodo" 
+      :todos="todos"  
       @toggle-todo="toggleTodo" 
       @delete-todo="deleteTodo"
     />
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import { ref, computed, watchEffect, reactive, watch } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
+  import { ref, computed , watch } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
   import TodoSimpleForm from './components/TodoSimpleForm.vue';
   import TodoList from './components/TodoList.vue';
   import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
@@ -117,7 +117,8 @@
       const numberOfTodos = ref(0); // pagination 총 todo 갯수 // initial paginagion: 0 
       const limit = 5; // pagination 페이지당 보여줄 데이터갯수
       const currentPage = ref(1); // pagination 처음 보여줄 페이지(현재페이지 : 기본 1)
-      
+      const searchText = ref(''); // 검색 텍스트
+
       /* watch Effect / watch - reactive 테스트용 */
       // const a = reactive ( {
       //   b: 1,
@@ -148,7 +149,7 @@
       
 
 
-
+      /* pagination 총 페이지 수 */
       const numberOfPages = computed ( () => {
         return Math.ceil(numberOfTodos.value/limit); // 총todo갯수/페이지당갯수 올림계산 = 총 페이지 수
       })
@@ -156,11 +157,11 @@
       
 
       /* 35. watch Effect */
-      watchEffect( () => {
-        // console.log(numberOfPages.value);
-        console.log(a.b); // 1 -> (밑에서 a.b = 3;실행돼서) 3
-        // console.log(limit); 는 밑에서 값을 바꿔도 실행되지 않음. => reactive state가 아니기 때문(const limit=5;)
-      });
+      // watchEffect( () => {
+      //   // console.log(numberOfPages.value);
+      //   console.log(a.b); // 1 -> (밑에서 a.b = 3;실행돼서) 3
+      //   // console.log(limit); 는 밑에서 값을 바꿔도 실행되지 않음. => reactive state가 아니기 때문(const limit=5;)
+      // });
 
       // a.b = 3;
 
@@ -180,7 +181,7 @@
         currentPage.value = page; // active클래스(포커스) 적용을 위함
         try{
           const res = await axios.get(
-            `http://localhost:3000/todos?_page=${page}&_limit=${limit}`
+            `http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
           ); // 모든 todos데이터를 가져옴 + pagination 추가!!
           // console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
           numberOfTodos.value =  res.headers['x-total-count'];
@@ -289,15 +290,17 @@
       };
 
       /* 24. 검색 기능 추가 */
-      const searchText = ref('');
-      const filteredTodo = computed( () => {
-        if(searchText.value){ // empty string이 아니면(검색창이 빈창이 아니면)
-          return todos.value.filter(todo => { // filteredTodo에 포함시켜라
-            return todo.subject.includes(searchText.value); // todos배열(todo리스트목록) 안에서, subject가 , searchText의 값을 포함하는것을 return 
-          });
-        }
-        return todos.value;
-      });
+      watch( searchText, () => {
+        getTodos(1); // 검색 할때마다 항상 첫페이지 보여주도록 함.
+      })
+      // const filteredTodo = computed( () => {
+      //   if(searchText.value){ // empty string이 아니면(검색창이 빈창이 아니면)
+      //     return todos.value.filter(todo => { // filteredTodo에 포함시켜라
+      //       return todo.subject.includes(searchText.value); // todos배열(todo리스트목록) 안에서, subject가 , searchText의 값을 포함하는것을 return 
+      //     });
+      //   }
+      //   return todos.value;
+      // });
 
 
       return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
@@ -313,7 +316,7 @@
         doubleCountComputed,
         doubleCountMethod,
         searchText,
-        filteredTodo,
+        // filteredTodo, 
         error,
         numberOfPages,
         currentPage, // 
