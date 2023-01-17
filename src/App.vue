@@ -72,17 +72,33 @@
     setup(){
       const toggle = ref(false);
       const todos = ref( [] ); // 처음 todo리스트는 빈 배열으로 설정
+      const error = ref(''); // 에러메세지
       
       const todoStyle = {
         textDecoration : 'line-through', //자바스크립트로 style을 설정할 때는 text-decoration이 아닌!! 'textDecoration'이라 쓰기.
         color : 'gray',
       }
 
+      /* Toggle 버튼 클릭시 실행 */
       const onToggle = () => {
         toggle.value = !toggle.value; // toggle ref를 반대로 바꿔줌. ( true => false 또는 false => true)
       }
 
-      const error = ref(''); // 에러메세지
+      /* todos 데이터베이스를 조회해서 가져오는 함수 */
+      const getTodos = async () => {
+        try{
+          const res = await axios.get('http://localhost:3000/todos'); // 모든 todos데이터를 가져옴
+          console.log(res.data); // res.data = todos데이터 배열
+          todos.value = res.data;
+        } catch (err) {
+          //응답 실패 시 실행됨.
+          error.value = 'ERROR : Something went wrong!';
+          console.log(err);
+        }
+      }
+      getTodos();
+
+      
 
       // * onSubmit => addTodo로 함수이름 변경!
       const addTodo = async ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
@@ -161,6 +177,7 @@
         todos,
         todoStyle,
         onToggle, //Toggle버튼
+        getTodos, // todos데이터들을 db에서 가져오기
         addTodo,
         toggleTodo,
         deleteTodo, // todo 삭제버튼
