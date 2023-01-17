@@ -26,6 +26,7 @@
       v-model = "searchText"
       class = "form-control"
       placeholder="Search"
+      @keyup.enter="searchTodo"
     >
 
     <hr/>
@@ -297,8 +298,17 @@
       };
 
       /* 24. 검색 기능 추가 */
+      let timeout = null; // 검색할때, 텍스트를 입력할때마다 watch되어 2초를 다시 세게 되는 문제점을 방지한다.
+      let searchTodo = () => { // 엔터치면 바로 db에 검색 요청보내는 함수
+        clearTimeout(timeout);
+        getTodos(1);
+      }
       watch( searchText, () => {
-        getTodos(1); // 검색 할때마다 항상 첫페이지 보여주도록 함.
+        clearTimeout(timeout);
+        timeout = setTimeout( () => {
+          getTodos(1); // 검색 할때마다 항상 첫페이지 보여주도록 함.
+        }, 2000); // 2초 후에 함수 실행
+        
       })
       // const filteredTodo = computed( () => {
       //   if(searchText.value){ // empty string이 아니면(검색창이 빈창이 아니면)
@@ -326,8 +336,8 @@
         // filteredTodo, 
         error,
         numberOfPages,
-        currentPage, // 
-        
+        currentPage, // 현재페이지
+        searchTodo,
       }; 
     }
   }
