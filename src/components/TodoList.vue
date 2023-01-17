@@ -37,6 +37,7 @@
 </template>
 
 <script>
+  // import { watchEffect } from 'vue';
 
     export default {
         /* props : ['todos'] 
@@ -54,6 +55,12 @@
         },
         emits : [ 'toggle-todo', 'delete-todo' ],
         setup( props, { emit } ) {
+
+            /* watch Effect */
+            // watchEffect( () => {
+            //   console.log(props.todos.length);
+            // })
+
             const toggleTodo = (index) => {
               emit('toggle-todo', index); // toggle-todo라는 이벤트로 index를 부모컴포로 보냄
 

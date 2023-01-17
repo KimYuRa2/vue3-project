@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import { ref, computed } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
+  import { ref, computed, watchEffect, reactive } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
   import TodoSimpleForm from './components/TodoSimpleForm.vue';
   import TodoList from './components/TodoList.vue';
   import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
@@ -117,9 +117,25 @@
       const numberOfTodos = ref(0); // pagination 총 todo 갯수 // initial paginagion: 0 
       const limit = 5; // pagination 페이지당 보여줄 데이터갯수
       const currentPage = ref(1); // pagination 처음 보여줄 페이지(현재페이지 : 기본 1)
+      
       const numberOfPages = computed ( () => {
         return Math.ceil(numberOfTodos.value/limit); // 총todo갯수/페이지당갯수 올림계산 = 총 페이지 수
       })
+
+      /* watch Effect - reactive 테스트 */
+      const a = reactive ( {
+        b: 1
+      });
+
+      /* 35. watch Effect */
+      watchEffect( () => {
+        // console.log(numberOfPages.value);
+        console.log(a.b); // 1 -> (밑에서 a.b = 3;실행돼서) 3
+        // console.log(limit); 는 밑에서 값을 바꿔도 실행되지 않음. => reactive state가 아니기 때문(const limit=5;)
+      });
+
+      a.b = 3;
+
 
       const todoStyle = {
         textDecoration : 'line-through', //자바스크립트로 style을 설정할 때는 text-decoration이 아닌!! 'textDecoration'이라 쓰기.
@@ -138,7 +154,7 @@
           const res = await axios.get(
             `http://localhost:3000/todos?_page=${page}&_limit=${limit}`
           ); // 모든 todos데이터를 가져옴 + pagination 추가!!
-          console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
+          // console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
           numberOfTodos.value =  res.headers['x-total-count'];
           // console.log(res.data); // res.data = todos데이터 배열
           todos.value = res.data;
