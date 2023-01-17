@@ -181,7 +181,7 @@
         currentPage.value = page; // active클래스(포커스) 적용을 위함
         try{
           const res = await axios.get(
-            `http://localhost:3000/todos?subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
+            `http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
           ); // 모든 todos데이터를 가져옴 + pagination 추가!!
           // console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
           numberOfTodos.value =  res.headers['x-total-count'];
@@ -204,14 +204,18 @@
         
         try{
           // 1) 데이터베이스에 투두를 저장(post http request)
-          const res = await axios.post('http://localhost:3000/todos', { // 비동기+await => 기다렸다가 결과물을 리턴해주면 , 변수 res에다가 결과값을 저장함.
+          await axios.post('http://localhost:3000/todos', { // 비동기+await => 기다렸다가 결과물을 리턴해주면 , 변수 res에다가 결과값을 저장함.
             // id는 자동생성되므로 안보내도 됨! 
             subject : todo.subject,
             completed : todo.completed,
           });
+
           // 2) response가 오면 , todos 배열에 저장
-          console.log(res);
-          todos.value.push(res.data);        
+          // todos.value.push(res.data); 
+
+          // 38. 문제점 수정 (1) : pagination때문에 추가시 한페이지에 6개되는 문제
+          getTodos(1); //재정렬! 1페이지로 이동
+
         } catch(err){
           //응답 실패 시(err) 실행됨.
           error.value = 'ERROR : Something went wrong!';
@@ -268,8 +272,11 @@
           
 
           // 2) 1에대한 응답이 돌아오면(delete성공), todos배열에서 삭제
-          todos.value.splice( index, 1); // todos배열에서, index(삭제버튼을 누른 todo의 번호)부터 1개만 지워줌!!
+          // todos.value.splice( index, 1); // todos배열에서, index(삭제버튼을 누른 todo의 번호)부터 1개만 지워줌!!
         
+          // 38. 문제점 수정 (2) : pagination때문에 삭제시 한페이지에 5개 이하가 되는 문제
+          getTodos(1); // 재정렬! 1페이지로 이동
+
         } catch (err) {
           //응답 실패 시(err) 실행됨.
           error.value = 'ERROR : Something went wrong!';
