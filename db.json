@@ -6,46 +6,6 @@
       "id": 5
     },
     {
-      "subject": "12345",
-      "completed": false,
-      "id": 6
-    },
-    {
-      "subject": "a",
-      "completed": false,
-      "id": 7
-    },
-    {
-      "subject": "b",
-      "completed": false,
-      "id": 8
-    },
-    {
-      "subject": "c",
-      "completed": false,
-      "id": 9
-    },
-    {
-      "subject": "d",
-      "completed": false,
-      "id": 10
-    },
-    {
-      "subject": "e",
-      "completed": false,
-      "id": 11
-    },
-    {
-      "subject": "f",
-      "completed": false,
-      "id": 12
-    },
-    {
-      "subject": "g",
-      "completed": false,
-      "id": 13
-    },
-    {
       "subject": "h",
       "completed": false,
       "id": 14
