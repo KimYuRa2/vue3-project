@@ -87,6 +87,7 @@
       // * onSubmit => addTodo로 함수이름 변경!
       const addTodo = async ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
         error.value='';
+        console.log("start");
         
         try{
           // 1) 데이터베이스에 투두를 저장(post http request)
@@ -96,6 +97,7 @@
             completed : todo.completed,
           });
           // 2) response가 오면 , todos 배열에 저장
+          console.log(res);
           todos.value.push(res.data);        
         } catch(err){
           //응답 실패 시(err) 실행됨.
@@ -113,6 +115,7 @@
         //   error.value = 'ERROR : Something went wrong!';
         //   console.log(err);
         // });
+        console.log("end"); // async + await사용 => start-> res데이터정보 -> end !!!
       };
 
       /* todo리스트 체크박스 toggle이벤트 */
