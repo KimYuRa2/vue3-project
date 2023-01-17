@@ -1,26 +1,6 @@
 {
   "todos": [
     {
-      "subject": "ㅁㄴㅇㄹ",
-      "completed": false,
-      "id": 1
-    },
-    {
-      "subject": "zxzxz",
-      "completed": false,
-      "id": 2
-    },
-    {
-      "subject": "asdf",
-      "completed": false,
-      "id": 3
-    },
-    {
-      "subject": "asdf",
-      "completed": false,
-      "id": 4
-    },
-    {
       "subject": "1234",
       "completed": false,
       "id": 5

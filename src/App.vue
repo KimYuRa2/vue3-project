@@ -145,8 +145,25 @@
       
 
       /* todo 삭제버튼 */
-      const deleteTodo = ( index ) => {
-        todos.value.splice( index, 1); // todos배열에서, index(삭제버튼을 누른 todo의 번호)부터 1개만 지워줌!!
+      const deleteTodo = async ( index ) => {
+        // erorr문구를 empty string으로
+        error.value = '';
+
+        const id = todos.value[index].id; // index로 id찾아내기
+        try{
+          // 1) db에서 delete 
+          await axios.delete('http://localhost:3000/todos/' + id );
+          
+
+           // 2) 1에대한 응답이 돌아오면(delete성공), todos배열에서 삭제
+          todos.value.splice( index, 1); // todos배열에서, index(삭제버튼을 누른 todo의 번호)부터 1개만 지워줌!!
+        
+        } catch (err) {
+          //응답 실패 시(err) 실행됨.
+          error.value = 'ERROR : Something went wrong!';
+          console.log(err);
+        }
+       
       };
 
 
