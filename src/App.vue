@@ -87,6 +87,7 @@
       // * onSubmit => addTodo로 함수이름 변경!
       const addTodo = ( todo ) => { // todo 파라미터 : 자식컴포넌트에서 받아온 데이터
         error.value='';
+        console.log("start시점");
         
         // 1) 데이터베이스에 투두를 저장(post http request)
         axios.post('http://localhost:3000/todos', {
@@ -104,7 +105,7 @@
           error.value = 'ERROR : Something went wrong!';
           console.log(err);
         });
-
+        console.log("end시점"); // 27. async(비동기)의 영향으로 start=> "end" => 저장된데이터 순으로 콘솔에 찍히게됨.
         
       };
 
