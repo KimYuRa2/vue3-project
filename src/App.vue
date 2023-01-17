@@ -134,11 +134,26 @@
         console.log("end"); // async + await사용 => start-> res데이터정보 -> end !!!
       };
 
+
       /* todo리스트 체크박스 toggle이벤트 */
-      const toggleTodo = (index) => {
-        console.log(todos.value[index]);
-        todos.value[index].completed = !todos.value[index].completed;
-        console.log(todos.value[index]);
+      const toggleTodo = async (index) => {
+        error.value='';
+        const id = todos.value[index].id; // index로 id찾아내기
+
+        try{
+           // 1) db에서 patch
+          await axios.patch('http://localhost:3000/todos/' + id, {
+            completed : !todos.value[index].completed
+          });
+
+          // 2) 1에대한 응답이 돌아오면(patch성공), todos배열에서 patch(completed: true=>false=>true=>...)
+          todos.value[index].completed = !todos.value[index].completed;
+
+        } catch (err) {
+          //응답 실패 시(err) 실행됨.
+          error.value = 'ERROR : Something went wrong!';
+          console.log(err);
+        }
 
       }
 
@@ -155,7 +170,7 @@
           await axios.delete('http://localhost:3000/todos/' + id );
           
 
-           // 2) 1에대한 응답이 돌아오면(delete성공), todos배열에서 삭제
+          // 2) 1에대한 응답이 돌아오면(delete성공), todos배열에서 삭제
           todos.value.splice( index, 1); // todos배열에서, index(삭제버튼을 누른 todo의 번호)부터 1개만 지워줌!!
         
         } catch (err) {
