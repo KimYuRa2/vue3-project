@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import { ref, computed, watchEffect, reactive } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
+  import { ref, computed, watchEffect, reactive, watch } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
   import TodoSimpleForm from './components/TodoSimpleForm.vue';
   import TodoList from './components/TodoList.vue';
   import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
@@ -118,14 +118,42 @@
       const limit = 5; // pagination 페이지당 보여줄 데이터갯수
       const currentPage = ref(1); // pagination 처음 보여줄 페이지(현재페이지 : 기본 1)
       
+      /* watch Effect / watch - reactive 테스트용 */
+      // const a = reactive ( {
+      //   b: 1,
+      //   c: 3
+      // });
+
+      /*
+        36. watching a getter (reactive)
+      */
+      // watch( 
+      //   () => [ a.b, a.c ], // a.b(, a.c)의 값을 watching하고있다가
+      //   (current, prev) => { // (b,c 둘중하나라도 )변경되면 함수 실행
+      //     console.log( current, prev); // []배열로 보내면 값도 [b의값,c의값] 으로 찍힘. // [2,3] [1,3]
+      //   }  
+      // );
+      // a.b = 2;
+
+      /*
+        36. directly watching a ref
+        : watch ( ref의 변수값 , (변경된값 , 변경되기전 값) =>｛。。。｝）;
+      */
+      // watch( currentPage, (currentPage, prev) => { //currentPage가 변경되었을 때.이 함수가 실행됨.
+      //   console.log('페이지변경~~',currentPage,prev); // (바뀐)현재페이지  바뀌기이전페이지
+      // })
+      // watch( [currentPage, numberOfTodos], (currentPage, prev) => { //currentPage또는 numberOfTodos가 변경되었을 때.이 함수가 실행됨.
+      //   console.log('페이지변경~~',currentPage, prev); // [현재페이지,총todos갯수] [바뀌기이전페이지,바뀌기이전 총todos갯수]
+      // })
+      
+
+
+
       const numberOfPages = computed ( () => {
         return Math.ceil(numberOfTodos.value/limit); // 총todo갯수/페이지당갯수 올림계산 = 총 페이지 수
       })
 
-      /* watch Effect - reactive 테스트 */
-      const a = reactive ( {
-        b: 1
-      });
+      
 
       /* 35. watch Effect */
       watchEffect( () => {
@@ -134,7 +162,7 @@
         // console.log(limit); 는 밑에서 값을 바꿔도 실행되지 않음. => reactive state가 아니기 때문(const limit=5;)
       });
 
-      a.b = 3;
+      // a.b = 3;
 
 
       const todoStyle = {
