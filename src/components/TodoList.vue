@@ -9,6 +9,7 @@
       <div 
         class="card-body p-2 d-flex align-items-center"
         @click = "moveToPage(todo.id)"
+        style="cursor:pointer;"
       >
 
         <!-- todo 체크박스 -->
@@ -17,7 +18,8 @@
             class="form-check-input" 
             type="checkbox"
             :checked="todo.completed" 
-            @change="toggleTodo(index)"
+            @change.stop="toggleTodo(index , $event)"
+            @click.stop
           >
           <label 
             class="form-check-label"
@@ -31,7 +33,7 @@
         <div>
           <button
             class="btn btn-danger btn-sm"
-            @click = "deleteTodo( index )"
+            @click.stop = "deleteTodo( index )"
           >
             Delete
           </button>
@@ -69,8 +71,8 @@
             //   console.log(props.todos.length);
             // })
 
-            const toggleTodo = (index) => {
-              emit('toggle-todo', index); // toggle-todo라는 이벤트로 index를 부모컴포로 보냄
+            const toggleTodo = (index , event) => {
+              emit('toggle-todo', index, event.target.checked); // toggle-todo라는 이벤트로 index를 부모컴포로 보냄
 
             };
 

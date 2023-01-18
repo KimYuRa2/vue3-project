@@ -241,18 +241,20 @@
   
   
         /* todo리스트 체크박스 toggle이벤트 */
-        const toggleTodo = async (index) => {
+        const toggleTodo = async (index , checked) => {
           error.value='';
           const id = todos.value[index].id; // index로 id찾아내기
   
           try{
              // 1) db에서 patch
             await axios.patch('http://localhost:3000/todos/' + id, {
-              completed : !todos.value[index].completed
+            //   completed : !todos.value[index].completed
+              completed : checked
             });
   
             // 2) 1에대한 응답이 돌아오면(patch성공), todos배열에서 patch(completed: true=>false=>true=>...)
-            todos.value[index].completed = !todos.value[index].completed;
+            // todos.value[index].completed = !todos.value[index].completed;
+            todos.value[index].completed = checked
   
           } catch (err) {
             //응답 실패 시(err) 실행됨.
