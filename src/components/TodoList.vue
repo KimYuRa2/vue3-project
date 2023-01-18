@@ -5,8 +5,13 @@
       :key = "todo.id"
       class="card mt-2"
     >
-      <!-- todo 체크박스 -->
-      <div class="card-body p-2 d-flex align-items-center">
+      <!-- todo 카드 -->
+      <div 
+        class="card-body p-2 d-flex align-items-center"
+        @click = "moveToPage(todo.id)"
+      >
+
+        <!-- todo 체크박스 -->
         <div class="form-check flex-grow-1">
           <input 
             class="form-check-input" 
@@ -38,6 +43,7 @@
 
 <script>
   // import { watchEffect } from 'vue';
+  import { useRouter } from 'vue-router';
 
     export default {
         /* props : ['todos'] 
@@ -56,6 +62,8 @@
         emits : [ 'toggle-todo', 'delete-todo' ],
         setup( props, { emit } ) {
 
+            const router = useRouter();
+
             /* watch Effect */
             // watchEffect( () => {
             //   console.log(props.todos.length);
@@ -70,9 +78,26 @@
               emit('delete-todo', index); // delete-todo라는 이벤트로 index를 부모컴포로 보냄
             }
 
+            /* todo 카드 클릭시 실행 */
+            const moveToPage = (todoId) => {
+              console.log(todoId);
+
+              /* 페이지 이동하기 */
+              // router.push( '/todos/' + todoId ); // 원하는 페이지로 이동
+
+              /* 컴포넌트의 name을 사용해서 페이지 이동하기 */
+              router.push({
+                name : 'Todo', // 컴포넌트의 name
+                params : {
+                  id : todoId // params안에는  path : '/todos/:id'=> /todos 뒤의 /:"id" 를 적기.
+                }
+              })
+            }
+
             return {
                 toggleTodo ,
                 deleteTodo,
+                moveToPage,
 
             }
         }
