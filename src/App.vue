@@ -12,8 +12,11 @@
     </ul>
   </nav>
 
-  <!-- 컴포넌트 -->
-  <router-view/>
+  <div class="container">
+    <!-- 컴포넌트 -->
+    <router-view/>
+  </div>
+  
 
 </template>
 

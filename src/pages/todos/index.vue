@@ -9,10 +9,9 @@
     <div v-else>false</div>
     <button @click = "onToggle">Toggle</button> -->
   
-    <!-- 컴포넌트 -->
-    <router-view/>
+    
   
-    <div class="container">
+    <div>
   
       <h2>To-Do List</h2>
   
