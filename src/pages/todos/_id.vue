@@ -64,7 +64,7 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { ref, computed } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
 
@@ -81,10 +81,14 @@ export default {
         const showToast = ref(false); // Toast
         const toastMessage = ref(''); // Toast message
         const toastAlertType = ref(''); // Toast
+        const timeout = ref(null);
         const todoId = route.params.id;
-        
-        
         console.log(route.params.id); // route.params.id = id정보 접근 가능
+
+        onUnmounted( ()=>{ // 메모리 정리 시 유용함.
+            console.log('onUnmounted');
+            clearTimeout(timeout.value); //tiggerToast함수가 실행되고, 5초가 지나기 전에 다른 페이지로 이동하면, setTimeout이 멈추게됨.
+        })
 
         /* id로 todo정보 db에 요청하고 받아오기 */
         const getTodo = async() => {
@@ -119,11 +123,12 @@ export default {
             toastAlertType.value = type;
             showToast.value = true;
             
-            setTimeout( () => {
+            timeout.value = setTimeout( () => {
+                console.log('hello');
                 toastMessage.value = '';
                 toastAlertType.value = '';
                 showToast.value = false;
-            }, 3000);
+            }, 5000);
         }
 
         /* db에 todo변경 요청보내기 */
