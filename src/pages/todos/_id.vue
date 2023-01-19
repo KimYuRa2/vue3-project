@@ -64,9 +64,10 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
 
 export default {
     components: {
@@ -78,17 +79,40 @@ export default {
         const todo = ref(null);
         const originalTodo = ref(null); // 수정전Todo
         const loading = ref(true); // todo를 null로 설정해둬서 처음 페이지 띄울 때 콘솔에 에러가 뜸 => getTodo함수 실행 후  todo.value = res.data;로 todo값 받아오면, form이 뜨도록 하기위한 설정!
-        const showToast = ref(false); // Toast
-        const toastMessage = ref(''); // Toast message
-        const toastAlertType = ref(''); // Toast
-        const timeout = ref(null);
+        
+        /* Toast */
+        const {
+          showToast,
+          toastMessage,
+          toastAlertType,
+          tiggerToast
+        } = useToast();
+        // const showToast = ref(false); // Toast
+        // const toastMessage = ref(''); // Toast message
+        // const toastAlertType = ref(''); // Toast
+        // const timeout = ref(null);
+        // /* Toast 띄우기 */
+        // const tiggerToast = ( message, type='success' ) => {
+        //     toastMessage.value = message; // 받아온 message를 toastMessage에 저장. 
+        //     toastAlertType.value = type;
+        //     showToast.value = true;
+            
+        //     timeout.value = setTimeout( () => {
+        //         console.log('hello');
+        //         toastMessage.value = '';
+        //         toastAlertType.value = '';
+        //         showToast.value = false;
+        //     }, 5000);
+        // }
+
+
         const todoId = route.params.id;
         console.log(route.params.id); // route.params.id = id정보 접근 가능
 
-        onUnmounted( ()=>{ // 메모리 정리 시 유용함.
-            console.log('onUnmounted');
-            clearTimeout(timeout.value); //tiggerToast함수가 실행되고, 5초가 지나기 전에 다른 페이지로 이동하면, setTimeout이 멈추게됨.
-        })
+        // onUnmounted( ()=>{ // 메모리 정리 시 유용함.
+        //     console.log('onUnmounted');
+        //     clearTimeout(timeout.value); //tiggerToast함수가 실행되고, 5초가 지나기 전에 다른 페이지로 이동하면, setTimeout이 멈추게됨.
+        // })
 
         /* id로 todo정보 db에 요청하고 받아오기 */
         const getTodo = async() => {
@@ -99,9 +123,8 @@ export default {
                 originalTodo.value = { ...res.data };  // spread객체(...)로 만들어서 새로운 객체로 만들기.(todo와 originalTodo의 주소가 같으면 둘중 하나가 값을 변경될시 값이 같이 변경되기 때문. )
                 loading.value = false;
             } catch (err) {
-                tiggerToast('Something went wrong!', 'danger');
+                tiggerToast('Something went wrong!', 'danger');// toast사용
                 console.log(err);
-
             }
         }
         getTodo();
@@ -117,19 +140,7 @@ export default {
             })
         }
 
-        /* Toast 띄우기 */
-        const tiggerToast = ( message, type='success' ) => {
-            toastMessage.value = message; // 받아온 message를 toastMessage에 저장. 
-            toastAlertType.value = type;
-            showToast.value = true;
-            
-            timeout.value = setTimeout( () => {
-                console.log('hello');
-                toastMessage.value = '';
-                toastAlertType.value = '';
-                showToast.value = false;
-            }, 5000);
-        }
+        
 
         /* db에 todo변경 요청보내기 */
         const onSave = async() => {
@@ -144,7 +155,7 @@ export default {
                 // Toast
                 tiggerToast('Successfully saved!'); // tiggerToast함수에 message('Successfully saved!') 보내기
             } catch (err){
-                tiggerToast('Something went wrong!', 'danger');
+                tiggerToast('Something went wrong!', 'danger'); // toast사용
                 console.log(err);
             }
         }

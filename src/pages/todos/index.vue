@@ -98,7 +98,13 @@
   
     </div>
     
-    
+    <!-- Toast 컴포넌트 -->
+    <Toast 
+        v-if="showToast"
+        :message = "toastMessage"
+        :type="toastAlertType"
+    />
+
 </template>
   
 <script>
@@ -106,11 +112,14 @@
     import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
     import TodoList from '@/components/TodoList.vue';
     import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
+    import Toast from '@/components/Toast.vue';
+    import { useToast } from '@/composables/toast';
   
     export default{
       components : {
         TodoSimpleForm,
         TodoList,
+        Toast,
       },
   
       setup(){
@@ -121,7 +130,33 @@
         const limit = 5; // pagination 페이지당 보여줄 데이터갯수
         const currentPage = ref(1); // pagination 처음 보여줄 페이지(현재페이지 : 기본 1)
         const searchText = ref(''); // 검색 텍스트
-  
+        
+
+        /* Toast */
+        const {
+          showToast,
+          toastMessage,
+          toastAlertType,
+          tiggerToast
+        } = useToast();
+
+        // const showToast = ref(false); // Toast
+        // const toastMessage = ref(''); // Toast message
+        // const toastAlertType = ref(''); // 
+        // const toastTimeout = ref(null);
+        // const tiggerToast = ( message, type='success' ) => { // toast 띄우기
+        //     toastMessage.value = message; // 받아온 message를 toastMessage에 저장. 
+        //     toastAlertType.value = type;
+        //     showToast.value = true;
+            
+        //     toastTimeout.value = setTimeout( () => {
+        //         console.log('hello');
+        //         toastMessage.value = '';
+        //         toastAlertType.value = '';
+        //         showToast.value = false;
+        //     }, 5000);
+        // }
+
         /* watch Effect / watch - reactive 테스트용 */
         // const a = reactive ( {
         //   b: 1,
@@ -194,6 +229,7 @@
             //응답 실패 시 실행됨.
             error.value = 'ERROR : Something went wrong!';
             console.log(err);
+            tiggerToast('Something went wrong!', 'danger');// toast사용
           }
         }
         getTodos();
@@ -223,6 +259,7 @@
             //응답 실패 시(err) 실행됨.
             error.value = 'ERROR : Something went wrong!';
             console.log(err);
+            tiggerToast('Something went wrong!', 'danger');// toast사용
           }
           // .then( res => { // js에서 요청은 비동기적(응답 상태와 상관없이 다음 동작을 수행)으로 일어나게됨.(응답이 promise로 오게됨.). 그래서 응답이 끝나기도 전에 다음줄이 실행됨..(오류) => 그래서 then을 씀!
           //   //  .then () : 위 요청(axios.post)이 끝나서 응답이 왔을 때! 실행되게 됨!!
@@ -259,6 +296,7 @@
             //응답 실패 시(err) 실행됨.
             error.value = 'ERROR : Something went wrong!';
             console.log(err);
+            tiggerToast('Something went wrong!', 'danger');// toast사용
           }
   
         }
@@ -286,6 +324,7 @@
             //응답 실패 시(err) 실행됨.
             error.value = 'ERROR : Something went wrong!';
             console.log(err);
+            tiggerToast('Something went wrong!', 'danger');// toast사용
           }
          
         };
@@ -323,6 +362,7 @@
         //   return todos.value;
         // });
   
+        
   
         return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
           toggle,
@@ -342,6 +382,10 @@
           numberOfPages,
           currentPage, // 현재페이지
           searchTodo,
+          showToast,
+          toastMessage,
+          toastAlertType,
+          tiggerToast,
         }; 
       }
     }
