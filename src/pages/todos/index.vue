@@ -12,8 +12,18 @@
     
   
     <div>
+
+      <div class="d-flex justify-content-between mb-3">
+        <h2>To-Do List</h2>
+        <button 
+          class="btn btn-primary"
+          @click="moveToCreatePage"
+        >
+          Create Todo
+        </button>
+      </div>
   
-      <h2>To-Do List</h2>
+      
   
       <!-- 23. computed 예제-->
       <!-- <h4>count : {{ count }}</h4>
@@ -114,6 +124,7 @@
     import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
     import Toast from '@/components/Toast.vue';
     import { useToast } from '@/composables/toast';
+    import { useRouter } from 'vue-router';
   
     export default{
       components : {
@@ -123,6 +134,7 @@
       },
   
       setup(){
+        const router = useRouter();
         const toggle = ref(false);
         const todos = ref( [] ); // 처음 todo리스트는 빈 배열으로 설정
         const error = ref(''); // 에러메세지
@@ -362,6 +374,12 @@
         //   return todos.value;
         // });
   
+
+        const moveToCreatePage = () => {
+          router.push({
+            name: 'TodoCreate',
+          })
+        }
         
   
         return{ //return하는 변수들은 template 안에서 접근이 가능해짐!
@@ -386,6 +404,7 @@
           toastMessage,
           toastAlertType,
           tiggerToast,
+          moveToCreatePage
         }; 
       }
     }
