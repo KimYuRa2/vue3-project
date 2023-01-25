@@ -15,12 +15,7 @@ export default {
         TodoForm,
 
     },
-    props : {
-        editing : {
-            type: Boolean, // 기본적으로 TodoForm은 Create Form으로 사용하고, default가 true인 다른 컴포넌트에서는 edit 기능도 사용가능하도록.
-            default: false,
-        }
-    },
+    
     setup(){
 
         return{

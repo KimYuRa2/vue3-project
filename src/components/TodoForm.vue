@@ -49,7 +49,7 @@
         class="btn btn-primary"
         :disabled="!todoUpdated"
     >
-        Save
+        {{ editing ? 'Update' : 'Create' }}
     </button>
 
     <button 
@@ -79,6 +79,12 @@ import { useToast } from '@/composables/toast';
 export default {
     components: {
         Toast,
+    },
+    props : {
+        editing : {
+            type: Boolean, // 기본적으로 TodoForm은 Create Form으로 사용하고, default가 true인 다른 컴포넌트에서는 edit 기능도 사용가능하도록.
+            default: false,
+        }
     },
     setup(props){
         const route = useRoute(); // route정보 받아옴
