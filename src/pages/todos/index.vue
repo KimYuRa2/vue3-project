@@ -10,17 +10,21 @@
     <button @click = "onToggle">Toggle</button> -->
   
     
-  
+    <!-- Todo 리스트 페이지 -->
+    
     <div>
 
       <div class="d-flex justify-content-between mb-3">
         <h2>To-Do List</h2>
+
+        <!-- Todo 생성버튼 -->
         <button 
           class="btn btn-primary"
           @click="moveToCreatePage"
         >
           Create Todo
         </button>
+
       </div>
   
       
@@ -44,7 +48,7 @@
       <hr/>
   
       <!-- 사용할컴포넌트이름 @자식컴포(에서발생할)이벤트이름 = “(실행될)부모컴포함수이름” -->
-      <TodoSimpleForm @add-todo="addTodo" />
+      <!-- <TodoSimpleForm @add-todo="addTodo" /> -->
   
       <!--에러메세지-->
       <div style="color:red;backgroundColor:yellow;">{{ error }}</div>
@@ -119,7 +123,7 @@
   
 <script>
     import { ref, computed , watch } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
-    import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
+    // import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
     import TodoList from '@/components/TodoList.vue';
     import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
     import Toast from '@/components/Toast.vue';
@@ -128,7 +132,7 @@
   
     export default{
       components : {
-        TodoSimpleForm,
+        // TodoSimpleForm,
         TodoList,
         Toast,
       },
