@@ -167,17 +167,33 @@ export default {
         
 
         /* db에 todo변경 요청보내기 */
-        const onSave = async() => {
-            try{
-                const res = await axios.put('http://localhost:3000/todos/' + todoId, {
+        const onSave = async() => { //editing or not (수정페이지인가 생성페이지인가)
+            try{ 
+                let res;
+                const data = {
                     subject : todo.value.subject,
-                    completed : todo.value.completed
-                });
+                    completed : todo.value.completed,
+                    body : todo.value.body,
+                };
+
+                if(props.editing){ //editing === true (수정페이지)
+                    res = await axios.put('http://localhost:3000/todos/' + todoId, data );
+                    originalTodo.value = { ...res.data }; // 저장이 끝나고나면, save버튼을 다시 disabled시킨다.
+                } else{ // (Create페이지)
+                    res = await axios.post('http://localhost:3000/todos', data );
+                    
+                    // 생성하고나면, input박스를 empty string으로 비운다.
+                    todo.value.subject = '';
+                    todo.value.body = '';
+                }
+                
 
                 // console.log(res);
                 originalTodo.value = { ...res.data }; // 저장이 끝나고나면, save버튼을 다시 disabled시킨다.
+                
                 // Toast
-                tiggerToast('Successfully saved!'); // tiggerToast함수에 message('Successfully saved!') 보내기
+                const message = 'Successfully ' + (props.editing ? 'Updated': 'Created') + '!';
+                tiggerToast(message); // tiggerToast함수에 message('Successfully saved!') 보내기
             } catch (err){
                 tiggerToast('Something went wrong!', 'danger'); // toast사용
                 console.log(err);
