@@ -15,6 +15,11 @@
                     type="text" 
                     class="form-control"
                 >
+
+                <!-- subject 입력 에러-->
+                <div v-if="subjectError" style="color:red;">
+                    {{ subjectError }}
+                </div>
             </div>
         </div>
 
@@ -94,6 +99,7 @@ export default {
             completed : false, // 처음 생성할 때 Status값 설정 불필요함. editing(수정페이지)일때만 필요.
             body : '',
         });
+        const subjectError = ref(''); 
         const originalTodo = ref(null); // 수정전Todo
         const loading = ref(false); // todo를 null로 설정해둬서 처음 페이지 띄울 때 콘솔에 에러가 뜸 => getTodo함수 실행 후  todo.value = res.data;로 todo값 받아오면, form이 뜨도록 하기위한 설정!
         
@@ -168,6 +174,15 @@ export default {
 
         /* db에 todo변경 요청보내기 */
         const onSave = async() => { //editing or not (수정페이지인가 생성페이지인가)
+            
+            // 폼 validation
+            subjectError.value = '';
+
+            if( !todo.value.subject ){ // subject칸이 비어있으면
+                subjectError.value = 'Subject is required!' ;
+                return; // 에러 - 요청 보내지 않고 리턴
+            }
+
             try{ 
                 let res;
                 const data = {
@@ -181,7 +196,7 @@ export default {
                     originalTodo.value = { ...res.data }; // 저장이 끝나고나면, save버튼을 다시 disabled시킨다.
                 } else{ // (Create페이지)
                     res = await axios.post('http://localhost:3000/todos', data );
-                    
+
                     // 생성하고나면, input박스를 empty string으로 비운다.
                     todo.value.subject = '';
                     todo.value.body = '';
@@ -214,6 +229,7 @@ export default {
             showToast,
             toastMessage,
             toastAlertType,
+            subjectError,
 
         }
 
