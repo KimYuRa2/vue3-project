@@ -66,11 +66,14 @@
   </form>
 
     <!-- Toast 컴포넌트 -->
-    <Toast 
-        v-if="showToast"
-        :message = "toastMessage"
-        :type="toastAlertType"
-    />
+    <transition name="fade">
+        <Toast 
+            v-if="showToast"
+            :message = "toastMessage"
+            :type="toastAlertType"
+        />
+    </transition>
+   
 </template>
 
 <script>
@@ -244,4 +247,38 @@ export default {
         color:red;
     }
 
+    /* transition 1 - opacity사용해서 나타났다 사라짐 */
+    /* .fade-enter-active,
+    .fade-leave-active{
+        transition : opacity 0.5s ease;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to{
+        opacity: 0; 
+    }
+
+    .fade-enter-to,
+    .fade-leave-from{
+        opacity: 1; 
+    } */
+
+
+    /* transition 2 -  */
+    .fade-enter-active,
+    .fade-leave-active{
+        transition : all 0.5s ease;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to{
+        opacity: 0; /* 0(투명) -> 1(선명) */
+        transform : translateY(-30px);
+    }
+
+    .fade-enter-to,
+    .fade-leave-from{
+        opacity: 1; /* 1 -> 0 */
+        transform : translateY(0);
+    }
 </style>
