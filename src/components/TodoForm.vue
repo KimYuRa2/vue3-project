@@ -17,7 +17,7 @@
                 >
 
                 <!-- subject 입력 에러-->
-                <div v-if="subjectError" style="color:red;">
+                <div v-if="subjectError" class="text-red">
                     {{ subjectError }}
                 </div>
             </div>
@@ -239,6 +239,9 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+    .text-red{
+        color:red;
+    }
 
 </style>
