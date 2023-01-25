@@ -320,11 +320,13 @@
         
   
         /* todo 삭제버튼 */
-        const deleteTodo = async ( index ) => {
+        const deleteTodo = async ( id ) => { 
           // erorr문구를 empty string으로
           error.value = '';
   
-          const id = todos.value[index].id; // index로 id찾아내기
+          // const id = todos.value[index].id; // index로 id찾아내기
+          // => 모달창클릭할때 id를 받아오기때문에 id를 찾을필요가 없어짐
+
           try{
             // 1) db에서 delete 
             await axios.delete('http://localhost:3000/todos/' + id );

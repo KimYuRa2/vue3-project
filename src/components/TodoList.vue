@@ -43,7 +43,8 @@
     <!-- 모달창 -->
     <Modal 
       v-if="showModal"
-      @close="closeModal"
+      @close = "closeModal"
+      @delete = "deleteTodo"
     />
     
 </template>
@@ -76,7 +77,7 @@
 
             const router = useRouter();
             const showModal = ref(false);
-            const todoDeleteId = ref(null);
+            const todoDeleteId = ref(null); // 삭제할 todo의 id
 
             /* watch Effect */
             // watchEffect( () => {
@@ -100,8 +101,11 @@
               showModal.value = false;
             };
 
-            const deleteTodo = ( index ) => { // 부모컴포넌트(App.vue)의 deleteTodo함수로 index값을 보내주는 함수.
-              emit('delete-todo', index); // delete-todo라는 이벤트로 index를 부모컴포로 보냄
+            const deleteTodo = () => { // 부모컴포넌트(App.vue)의 deleteTodo함수로 index값을 보내주는 함수.
+              emit('delete-todo', todoDeleteId.value); // delete-todo라는 이벤트로 index를 부모컴포로 보냄
+              
+              showModal.value = false;
+              todoDeleteId.value = null;
             };
 
             /* todo 카드 클릭시 실행 */
