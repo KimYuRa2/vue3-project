@@ -32,21 +32,32 @@
         <div>
           <button
             class="btn btn-danger btn-sm"
-            @click.stop = "deleteTodo( index )"
+            @click.stop = "openModal( todo.id )"
           >
             Delete
           </button>
         </div>
       </div>
     </div>
+
+    <!-- 모달창 -->
+    <Modal 
+      v-if="showModal"
+      @close="closeModal"
+    />
     
 </template>
 
 <script>
   // import { watchEffect } from 'vue';
   import { useRouter } from 'vue-router';
+  import Modal from '@/components/Modal.vue';
+  import { ref } from 'vue';
 
     export default {
+        components : {
+          Modal,
+        },
         /* props : ['todos'] 
             => App.vue(부모컴포)의 :todos // TodoList.vue(자식컴포)에서 - props로 - App.vue(부모컴포)의 todos를 받아온다.
             => 이제 TodoList안에서 "todos"에 접근가능하게 됨!!
@@ -64,6 +75,8 @@
         setup( props, { emit } ) {
 
             const router = useRouter();
+            const showModal = ref(false);
+            const todoDeleteId = ref(null);
 
             /* watch Effect */
             // watchEffect( () => {
@@ -75,9 +88,21 @@
 
             };
 
+            /* 모달창 열기 */
+            const openModal = ( id ) => {
+              todoDeleteId.value = id; // 삭제할 todo의 id
+              showModal.value = true;
+            };
+
+            /* 모달창 닫기 */
+            const closeModal = () => {
+              todoDeleteId.value = null; // 삭제할 todo의 id
+              showModal.value = false;
+            };
+
             const deleteTodo = ( index ) => { // 부모컴포넌트(App.vue)의 deleteTodo함수로 index값을 보내주는 함수.
               emit('delete-todo', index); // delete-todo라는 이벤트로 index를 부모컴포로 보냄
-            }
+            };
 
             /* todo 카드 클릭시 실행 */
             const moveToPage = (todoId) => {
@@ -93,12 +118,15 @@
                   id : todoId // params안에는  path : '/todos/:id'=> /todos 뒤의 /:"id" 를 적기.
                 }
               })
-            }
+            };
 
             return {
                 toggleTodo ,
                 deleteTodo,
                 moveToPage,
+                showModal,
+                openModal,
+                closeModal,
 
             }
         }
