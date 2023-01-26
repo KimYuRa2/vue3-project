@@ -56,7 +56,7 @@
 <script>
   // import { watchEffect } from 'vue';
   import { useRouter } from 'vue-router';
-  import Modal from '@/components/Modal.vue';
+  import Modal from '@/components/DeleteModal.vue';
   import { ref } from 'vue';
 
     export default {

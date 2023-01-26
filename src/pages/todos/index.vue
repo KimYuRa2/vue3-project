@@ -12,7 +12,7 @@
     
     <!-- Todo 리스트 페이지 -->
     
-    <div style="opacity : 0.5;">
+    <div>
 
       <div class="d-flex justify-content-between mb-3">
         <h2>To-Do List</h2>
