@@ -40,12 +40,16 @@
       </div>
     </div>
 
-    <!-- 모달창 -->
-    <Modal 
-      v-if="showModal"
-      @close = "closeModal"
-      @delete = "deleteTodo"
-    />
+    <!-- teleport -->
+    <teleport to="#modal">
+      <!-- 모달창 -->
+      <Modal 
+        v-if="showModal"
+        @close = "closeModal"
+        @delete = "deleteTodo"
+      />
+    </teleport>
+    
     
 </template>
 
