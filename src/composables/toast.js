@@ -1,12 +1,16 @@
-import { ref, onUnmounted } from 'vue';
+import { ref, onUnmounted, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export const useToast = () => {
+    const store = useStore();
 
     /* Toast */
-    const showToast = ref(false); // Toast
-    const toastMessage = ref(''); // Toast message
-    const toastAlertType = ref(''); // 
-    const timeout = ref(null);
+    //  const showToast = store.state.showToast; 이렇게 값만 가져오는 형식으로는, vuex state에서(src-store-index.js) 값이 변경되었을때 , 여기서 감지하지 못함.
+    // => 그래서 값 변경을 감지하기 위해 computed로 감싸줌.
+    const showToast = computed( () => store.state.showToast ); // vuex에 있는 showToast state를 가져와서 showToast에다가 담아두고 사용
+    const toastMessage = computed( () => store.state.toastMessage ); // Toast message
+    const toastAlertType = computed( () => store.state.toastAlertType ); // 
+    const timeout = computed( () => store.state.timeout );
     /* Toast 띄우기 */
     const tiggerToast = ( message, type='success' ) => {
         toastMessage.value = message; // 받아온 message를 toastMessage에 저장. 

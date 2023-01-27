@@ -87,7 +87,8 @@ import { ref, computed, onUpdated } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
-import Input from '@/components/Input.vue'
+import Input from '@/components/Input.vue';
+//import { useStore } from 'vuex';
 
 export default {
     components: {
@@ -101,6 +102,9 @@ export default {
         }
     },
     setup(props){
+        // const store = useStore();
+        // console.log(store.state.showToast);
+
         const route = useRoute(); // route정보 받아옴
         const router = useRouter(); // route정보 받아옴
         const todo = ref({
