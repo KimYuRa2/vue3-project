@@ -1,44 +1,51 @@
 <template>
     <!-- todo 리스트 -->
-    <div 
+    <!-- <div 
       v-for = "(todo, index) in todos"
       :key = "todo.id"
       class="card mt-2"
+    > -->
+    <List
+      :items="todos"
     >
-      <!-- todo 카드 -->
-      <div 
-        class="card-body p-2 d-flex align-items-center"
-        @click = "moveToPage(todo.id)"
-        style="cursor:pointer;"
-      >
+    <!-- <template #default="slotProps"> -->
+    <template #default="{item, index}">
+        <!-- todo 카드 -->
+        <div 
+          class="card-body p-2 d-flex align-items-center"
+          @click = "moveToPage(item.id)"
+          style="cursor:pointer;"
+        >
 
-        <!-- todo 체크박스 -->
-        <div class="flex-grow-1">
-          <input 
-            class="ml-2 mr-2"
-            type="checkbox"
-            :checked="todo.completed" 
-            @change.stop="toggleTodo(index , $event)"
-            @click.stop
-          >
-          <span
-            :class = "{ todo : todo.completed }"
-          >
-            {{ todo.subject }}
-          </span>
-        </div>
+          <!-- todo 체크박스 -->
+          <div class="flex-grow-1">
+            <input 
+              class="ml-2 mr-2"
+              type="checkbox"
+              :checked="item.completed" 
+              @change.stop="toggleTodo(index , $event)"
+              @click.stop
+            >
+            <span
+              :class = "{ todo : item.completed }"
+            >
+              {{ item.subject }}
+            </span>
+          </div>
 
-        <!-- todo 삭제버튼 -->
-        <div>
-          <button
-            class="btn btn-danger btn-sm"
-            @click.stop = "openModal( todo.id )"
-          >
-            Delete
-          </button>
+          <!-- todo 삭제버튼 -->
+          <div>
+            <button
+              class="btn btn-danger btn-sm"
+              @click.stop = "openModal( item.id )"
+            >
+              Delete
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </List>
+    <!-- </div> -->
 
     <!-- teleport -->
     <teleport to="#modal">
@@ -58,10 +65,12 @@
   import { useRouter } from 'vue-router';
   import Modal from '@/components/DeleteModal.vue';
   import { ref } from 'vue';
+  import List from '@/components/List.vue';
 
     export default {
         components : {
           Modal,
+          List,
         },
         /* props : ['todos'] 
             => App.vue(부모컴포)의 :todos // TodoList.vue(자식컴포)에서 - props로 - App.vue(부모컴포)의 todos를 받아온다.
