@@ -47,7 +47,7 @@
     },
     {
       "subject": "buy milk",
-      "completed": false,
+      "completed": true,
       "body": "buy milk at supermarket",
       "id": 27
     },
@@ -58,9 +58,9 @@
       "id": 28
     },
     {
-      "subject": "dfasfddd",
-      "completed": false,
-      "body": "asdf",
+      "subject": "daf",
+      "completed": true,
+      "body": "ss",
       "id": 29
     }
   ]

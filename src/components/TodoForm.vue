@@ -82,7 +82,7 @@
 
 <script>
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '@/axios';
 import { ref, computed, onUpdated } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
@@ -158,7 +158,7 @@ export default {
         const getTodo = async() => {
             loading.value = true; // editing페이지이면(todo정보 필요함), loading 일어나게
             try{
-                const res = await axios.get('http://localhost:3000/todos/' + todoId);
+                const res = await axios.get('todos/' + todoId);
                 console.log(res);
                 todo.value = { ...res.data }; // res.data => {subject: 'dfasd', completed: false, id: 22}
                 originalTodo.value = { ...res.data };  // spread객체(...)로 만들어서 새로운 객체로 만들기.(todo와 originalTodo의 주소가 같으면 둘중 하나가 값을 변경될시 값이 같이 변경되기 때문. )
@@ -209,10 +209,10 @@ export default {
                 };
 
                 if(props.editing){ //editing === true (수정페이지)
-                    res = await axios.put('http://localhost:3000/todos/' + todoId, data );
+                    res = await axios.put('todos/' + todoId, data );
                     originalTodo.value = { ...res.data }; // 저장이 끝나고나면, save버튼을 다시 disabled시킨다.
                 } else{ // (Create페이지)
-                    res = await axios.post('http://localhost:3000/todos', data );
+                    res = await axios.post('todos', data );
 
                     // 생성하고나면, input박스를 empty string으로 비운다.
                     todo.value.subject = '';

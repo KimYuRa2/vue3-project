@@ -125,7 +125,7 @@
     import { ref, computed , watch } from 'vue'; // reactive는 객체나 배열에서만 사용 가능!
     // import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
     import TodoList from '@/components/TodoList.vue';
-    import axios from 'axios'; // http요청 보낼때 사용할 npm 패키지
+    import axios from '@/axios'; // http요청 보낼때 사용할 npm 패키지
     import Toast from '@/components/Toast.vue';
     import { useToast } from '@/composables/toast';
     import { useRouter } from 'vue-router';
@@ -235,7 +235,7 @@
           currentPage.value = page; // active클래스(포커스) 적용을 위함
           try{
             const res = await axios.get(
-              `http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
+              `todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
             ); // 모든 todos데이터를 가져옴 + pagination 추가!!
             // console.log(res.headers['x-total-count']); // headers안의 [ x-total-count ] = 총 데이터 갯수
             numberOfTodos.value =  res.headers['x-total-count'];
@@ -259,7 +259,7 @@
           
           try{
             // 1) 데이터베이스에 투두를 저장(post http request)
-            await axios.post('http://localhost:3000/todos', { // 비동기+await => 기다렸다가 결과물을 리턴해주면 , 변수 res에다가 결과값을 저장함.
+            await axios.post('todos', { // 비동기+await => 기다렸다가 결과물을 리턴해주면 , 변수 res에다가 결과값을 저장함.
               // id는 자동생성되므로 안보내도 됨! 
               subject : todo.subject,
               completed : todo.completed,
@@ -299,7 +299,7 @@
   
           try{
              // 1) db에서 patch
-            await axios.patch('http://localhost:3000/todos/' + id, {
+            await axios.patch('todos/' + id, {
             //   completed : !todos.value[index].completed
               completed : checked
             });
@@ -329,7 +329,7 @@
 
           try{
             // 1) db에서 delete 
-            await axios.delete('http://localhost:3000/todos/' + id );
+            await axios.delete('todos/' + id );
             
   
             // 2) 1에대한 응답이 돌아오면(delete성공), todos배열에서 삭제
