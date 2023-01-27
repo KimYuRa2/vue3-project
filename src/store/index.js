@@ -6,7 +6,7 @@ export default createStore({
         showToast : false,
         toastMessage : '',// Toast message
         toastAlertType : '', 
-        timeout : null
+        // timeout : null
     },
     mutations : {
         UPDATE_TOAST_MESSAGE (state, payload) { // state를 인자로 받아와서, state에 접근해서 state를 변경함 // payload : 원하는 데이터 받아옴
@@ -18,9 +18,9 @@ export default createStore({
         UPDATE_TOAST_STATUS (state, payload){
             state.showToast = payload;
         },
-        UPDATE_TOAST_TIMEOUT (state, payload) {
-            state.timeout = payload;
-        }
+        // UPDATE_TOAST_TIMEOUT (state, payload) {
+        //     state.timeout = payload;
+        // }
 
     },
     actions : {
@@ -35,7 +35,7 @@ export default createStore({
             // showToast.value = true;
             commit('UPDATE_TOAST_STATUS', true);
             
-            timeout.value = setTimeout( () => {
+            setTimeout( () => {
                 /* 초기화 */
                 // toastMessage.value = '';
                 commit('UPDATE_TOAST_MESSAGE', '');
@@ -47,6 +47,11 @@ export default createStore({
                 commit('UPDATE_TOAST_STATUS', false);
 
             }, 3000);
+        }
+    },
+    getters : { // === computed기능과 같음!(computed와 똑같이, reactive하기 때문에 watch하고있다가 state.toastMessage부분이 변경되면 함수가 일어남 )
+        toastMessagewithSmile ( state ) {
+            return state.toastMessage + '^_^';
         }
     }
 })
