@@ -226,6 +226,12 @@ export default {
                 // Toast
                 const message = 'Successfully ' + (props.editing ? 'Updated': 'Created') + '!';
                 tiggerToast(message); // tiggerToast함수에 message('Successfully saved!') 보내기
+
+                if(!props.editing){
+                    router.push({
+                        name: 'Todos'
+                    })
+                }
             } catch (err){
                 tiggerToast('Something went wrong!', 'danger'); // toast사용
                 console.log(err);
