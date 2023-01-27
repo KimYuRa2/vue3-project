@@ -8,7 +8,7 @@
   >
     <div class="row">
         <div class="col-6">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>Subject</label>
                 <input 
                     v-model="todo.subject" 
@@ -16,11 +16,15 @@
                     class="form-control"
                 >
 
-                <!-- subject 입력 에러-->
                 <div v-if="subjectError" class="text-red">
                     {{ subjectError }}
                 </div>
-            </div>
+            </div> -->
+            <Input 
+                label="Subject" 
+                v-model:subject="todo.subject"
+                :error="subjectError" 
+            />
         </div>
 
         <!-- status -(completed 버튼 ) -->
@@ -79,14 +83,16 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { ref, computed } from 'vue';
+import { ref, computed, onUpdated } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
+import Input from '@/components/Input.vue'
 
 export default {
     components: {
         Toast,
+        Input,
     },
     props : {
         editing : {
@@ -102,6 +108,9 @@ export default {
             completed : false, // 처음 생성할 때 Status값 설정 불필요함. editing(수정페이지)일때만 필요.
             body : '',
         });
+        onUpdated( () => {
+            console.log(todo.value.subject);
+        })
         const subjectError = ref(''); 
         const originalTodo = ref(null); // 수정전Todo
         const loading = ref(false); // todo를 null로 설정해둬서 처음 페이지 띄울 때 콘솔에 에러가 뜸 => getTodo함수 실행 후  todo.value = res.data;로 todo값 받아오면, form이 뜨도록 하기위한 설정!
@@ -134,6 +143,11 @@ export default {
 
         const todoId = route.params.id;
         console.log(route.params.id); // route.params.id = id정보 접근 가능
+
+        /* Subject Input 변경사항 가져와서, subject 업데이트  => v-model사용으로 필요없어짐*/
+        // const updateTodoSubject = (newValue) => {
+        //     todo.value.subject=newValue;
+        // }
 
         // onUnmounted( ()=>{ // 메모리 정리 시 유용함.
         //     console.log('onUnmounted');
