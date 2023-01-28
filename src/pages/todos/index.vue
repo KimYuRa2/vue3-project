@@ -112,12 +112,12 @@
   
     </div>
     
-    <!-- Toast 컴포넌트 -->
-    <Toast 
+    <!-- Toast 컴포넌트 : App.vue에서 사용하므로 지워줌 -->
+    <!-- <Toast 
         v-if="showToast"
         :message = "toastMessage"
         :type="toastAlertType"
-    />
+    /> -->
 
 </template>
   
@@ -126,7 +126,7 @@
     // import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
     import TodoList from '@/components/TodoList.vue';
     import axios from '@/axios'; // http요청 보낼때 사용할 npm 패키지
-    import Toast from '@/components/Toast.vue';
+    // import Toast from '@/components/Toast.vue';
     import { useToast } from '@/composables/toast';
     import { useRouter } from 'vue-router';
   
@@ -134,7 +134,7 @@
       components : {
         // TodoSimpleForm,
         TodoList,
-        Toast,
+        // Toast,
       },
   
       setup(){

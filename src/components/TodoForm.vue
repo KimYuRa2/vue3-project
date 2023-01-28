@@ -69,14 +69,14 @@
     </button>
   </form>
 
-    <!-- Toast 컴포넌트 -->
-    <transition name="fade">
+    <!-- Toast 컴포넌트 : App.vue에서 사용하므로 지워줌-->
+    <!-- <transition name="fade">
         <Toast 
             v-if="showToast"
             :message = "toastMessage"
             :type="toastAlertType"
         />
-    </transition>
+    </transition> -->
    
 </template>
 
@@ -85,14 +85,14 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from '@/axios';
 import { ref, computed, onUpdated } from 'vue';
 import _ from 'lodash';
-import Toast from '@/components/Toast.vue';
+// import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
 import Input from '@/components/Input.vue';
 //import { useStore } from 'vuex';
 
 export default {
     components: {
-        Toast,
+        // Toast,
         Input,
     },
     props : {

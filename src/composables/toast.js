@@ -7,9 +7,9 @@ export const useToast = () => {
     /* Toast */
     //  const showToast = store.state.showToast; 이렇게 값만 가져오는 형식으로는, vuex state에서(src-store-index.js) 값이 변경되었을때 , 여기서 감지하지 못함.
     // => 그래서 값 변경을 감지하기 위해 computed로 감싸줌.
-    const showToast = computed( () => store.state.showToast ); // vuex에 있는 showToast state를 가져와서 showToast에다가 담아두고 사용
-    const toastMessage = computed( () => store.getters.toastMessageWithSmile ); // Toast message
-    const toastAlertType = computed( () => store.state.toastAlertType ); // 
+    const showToast = computed( () => store.state.toast.showToast ); // vuex에 있는 showToast state를 가져와서 showToast에다가 담아두고 사용 // store.state.vuex module이름.state의 이름
+    const toastMessage = computed( () => store.getters['toast/toastMessageWithSmile'] ); // Toast message // store.getters['vuex module이름 / getters의 이름']
+    const toastAlertType = computed( () => store.state.toast.toastAlertType ); // // store.state.vuex module이름.state의 이름
     // const timeout = computed( () => store.state.timeout );
     /* Toast 띄우기 */
     const tiggerToast = ( message, type='success' ) => {
@@ -23,7 +23,7 @@ export const useToast = () => {
         //     toastAlertType.value = '';
         //     showToast.value = false;
         // }, 3000);
-        store.dispatch('tiggerToast', message, type); // action을 dispatch함. (mutation은 commit)
+        store.dispatch('toast/tiggerToast', message, type); // action을 dispatch함. (mutation은 commit) // 'vuex module이름/tiggerToast'
     }
 
     /* App.vue에서만 toast를 사용할것이기 때문에(=App.vue에서 나가는것은, vue에서 나가는것과 같으므로) clearTimeout(timeout.value) 필요 없음! */

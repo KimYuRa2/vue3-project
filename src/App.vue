@@ -17,11 +17,14 @@
     <router-view/>
   </div>
 
-  <Toast 
-    v-if="showToast"
-    :message = "toastMessage"
-    :type="toastAlertType"
-  />
+  <transition name="slide">
+    <Toast 
+      v-if="showToast"
+      :message = "toastMessage"
+      :type="toastAlertType"
+    />
+  </transition>
+  
   
 
 </template>
@@ -61,6 +64,22 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
+    /* transition 2 -  */
+    .slide-enter-active,
+    .slide-leave-active{
+        transition : all 0.5s ease;
+    }
 
+    .slide-enter-from,
+    .slide-leave-to{
+        opacity: 0; /* 0(투명) -> 1(선명) */
+        transform : translateY(-30px);
+    }
+
+    .slide-enter-to,
+    .slide-leave-from{
+        opacity: 1; /* 1 -> 0 */
+        transform : translateY(0);
+    }
 </style>
