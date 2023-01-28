@@ -7,22 +7,17 @@ export const useToast = () => {
     /* Toast */
     //  const showToast = store.state.showToast; 이렇게 값만 가져오는 형식으로는, vuex state에서(src-store-index.js) 값이 변경되었을때 , 여기서 감지하지 못함.
     // => 그래서 값 변경을 감지하기 위해 computed로 감싸줌.
-    const showToast = computed( () => store.state.toast.showToast ); // vuex에 있는 showToast state를 가져와서 showToast에다가 담아두고 사용 // store.state.vuex module이름.state의 이름
-    const toastMessage = computed( () => store.getters['toast/toastMessageWithSmile'] ); // Toast message // store.getters['vuex module이름 / getters의 이름']
-    const toastAlertType = computed( () => store.state.toast.toastAlertType ); // // store.state.vuex module이름.state의 이름
-    // const timeout = computed( () => store.state.timeout );
+    // const showToast = computed( () => store.state.toast.showToast ); // vuex에 있는 showToast state를 가져와서 showToast에다가 담아두고 사용 // store.state.vuex module이름.state의 이름
+    // const toastMessage = computed( () => store.getters['toast/toastMessageWithSmile'] ); // Toast message // store.getters['vuex module이름 / getters의 이름']
+    // const toastAlertType = computed( () => store.state.toast.toastAlertType ); // // store.state.vuex module이름.state의 이름
+
+    const toasts = computed( () => store.state.toast.toasts);
+
     /* Toast 띄우기 */
     const tiggerToast = ( message, type='success' ) => {
         // toastMessage.value = message; // 받아온 message를 toastMessage에 저장. 
         // toastAlertType.value = type;
         // showToast.value = true;
-        
-        // timeout.value = setTimeout( () => {
-        //     console.log('hello');
-        //     toastMessage.value = '';
-        //     toastAlertType.value = '';
-        //     showToast.value = false;
-        // }, 3000);
         store.dispatch('toast/tiggerToast', message, type); // action을 dispatch함. (mutation은 commit) // 'vuex module이름/tiggerToast'
     }
 
@@ -33,9 +28,10 @@ export const useToast = () => {
     // })
 
     return{
-        showToast,
-        toastMessage,
-        toastAlertType,
+        // showToast,
+        // toastMessage,
+        // toastAlertType,
+        toasts, // Toast transition group
         tiggerToast,
         //timeout//내부적으로만 사용하기때문에 return할 필요 없음
     }

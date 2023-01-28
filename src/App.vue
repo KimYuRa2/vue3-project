@@ -17,21 +17,14 @@
     <router-view/>
   </div>
 
-  <transition name="slide">
-    <Toast 
-      v-if="showToast"
-      :message = "toastMessage"
-      :type="toastAlertType"
-    />
-  </transition>
-  
-  
 
+  <Toast />
+  
 </template>
 
 <script>
 import Toast from '@/components/Toast.vue';
-import { useToast } from '@/composables/toast';
+// import { useToast } from '@/composables/toast';
 // import { useStore } from 'vuex';
 
 export default{
@@ -43,21 +36,21 @@ export default{
       // console.log(store.state.showToast);
 
       /* useToast */
-      const {
-        showToast,
-        toastMessage,
-        toastAlertType,
-        tiggerToast
-      } = useToast();
+      // const {
+      //   showToast,
+      //   toastMessage,
+      //   toastAlertType,
+      //   tiggerToast
+      // } = useToast();
 
 
-      return{
-        showToast,
-        toastMessage,
-        toastAlertType,
-        tiggerToast,
+      // return{
+      //   showToast,
+      //   toastMessage,
+      //   toastAlertType,
+      //   tiggerToast,
 
-      }
+      // }
 
   }
 }
@@ -65,21 +58,5 @@ export default{
 </script>
 
 <style scoped>
-    /* transition 2 -  */
-    .slide-enter-active,
-    .slide-leave-active{
-        transition : all 0.5s ease;
-    }
 
-    .slide-enter-from,
-    .slide-leave-to{
-        opacity: 0; /* 0(투명) -> 1(선명) */
-        transform : translateY(-30px);
-    }
-
-    .slide-enter-to,
-    .slide-leave-from{
-        opacity: 1; /* 1 -> 0 */
-        transform : translateY(0);
-    }
 </style>
