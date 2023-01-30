@@ -71,44 +71,13 @@
       <hr/>
   
       <!-- pagination -->
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a 
-              v-if = "currentPage !== 1"
-              class="page-link" 
-              @click = "getTodos(currentPage - 1)"
-              style="cursor : pointer"
-            >
-              Previous
-            </a>
-          </li>
-          <li 
-            v-for = "page in numberOfPages"
-            :key = "page"
-            class= "page-item"
-            :class= "currentPage === page ? 'active' : '' "
-          >
-            <a 
-              class="page-link" 
-              @click="getTodos(page)" 
-              style="cursor : pointer"
-            >
-              {{ page }}
-            </a>
-          </li>
-          <li class="page-item">
-            <a 
-              v-if=" numberOfPages !== currentPage "
-              class="page-link" 
-              @click = "getTodos(currentPage + 1)"
-              style="cursor : pointer"
-            >
-              Next
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <Pagination 
+        v-if="todos.length"
+        :numberOfPages="numberOfPages"
+        :currentPage="currentPage"
+        @click="getTodos"
+      />
+
   
     </div>
     
@@ -129,12 +98,14 @@
     // import Toast from '@/components/Toast.vue';
     import { useToast } from '@/composables/toast';
     import { useRouter } from 'vue-router';
+    import Pagination from '@/components/Pagination.vue';
   
     export default{
       components : {
         // TodoSimpleForm,
         TodoList,
         // Toast,
+        Pagination,
       },
   
       setup(){

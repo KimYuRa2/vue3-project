@@ -1,35 +1,27 @@
 <template>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- <router-link class="navbar-brand" to="/">Yura's Todo</router-link> -->
-    <router-link class="navbar-brand" :to="{ name : 'Home' }">Yura's Todo</router-link>
-
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <!-- <router-link class="nav-link" to="/todos">Todos</router-link> -->
-        <router-link class="nav-link" :to="{ name : 'Todos' }">Todos</router-link>
-      </li>
-    </ul>
-  </nav>
+  <Navbar />
 
   <div class="container">
-    <!-- 컴포넌트 -->
+    <!-- 페이지 컴포넌트 -->
     <router-view/>
   </div>
 
-
+  <!-- Toast 컴포넌트 -->
   <Toast />
   
 </template>
 
 <script>
 import Toast from '@/components/Toast.vue';
+import Navbar from '@/components/Navbar.vue';
 // import { useToast } from '@/composables/toast';
 // import { useStore } from 'vuex';
 
 export default{
   components: {
     Toast,
+    Navbar,
   },
   setup(){
       // const store = useStore(); // 값을 store에 담아줌
