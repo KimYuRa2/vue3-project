@@ -30,14 +30,15 @@ export default {
     },
     actions : {
         /* Toast 띄우기 */
-        tiggerToast ( { commit }, message, type='success' ) { // context객체 안의 commit
+        tiggerToast ( { commit }, payload ) { // context객체 안의 commit
+            //message, type='success'
             // commit('UPDATE_TOAST_MESSAGE', message);// UPDATE_TOAST_MESSAGE mutation을 commit해주고, 데이터를 payload로 넘겨줌
             // commit('UPDATE_TOAST_ALERT_TYPE', type);
             // commit('UPDATE_TOAST_STATUS', true);
             commit('ADD_TOAST', {
                 id: Date.now(),
-                message,
-                type
+                message: payload.message ,
+                type : payload.type,
             })
             
             setTimeout( () => {

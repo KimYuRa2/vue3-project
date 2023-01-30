@@ -18,7 +18,7 @@ export const useToast = () => {
         // toastMessage.value = message; // 받아온 message를 toastMessage에 저장. 
         // toastAlertType.value = type;
         // showToast.value = true;
-        store.dispatch('toast/tiggerToast', message, type); // action을 dispatch함. (mutation은 commit) // 'vuex module이름/tiggerToast'
+        store.dispatch('toast/tiggerToast',{ message, type }); // action을 dispatch함. (mutation은 commit) // 'vuex module이름/tiggerToast'// {message:message, type:type}
     }
 
     /* App.vue에서만 toast를 사용할것이기 때문에(=App.vue에서 나가는것은, vue에서 나가는것과 같으므로) clearTimeout(timeout.value) 필요 없음! */
