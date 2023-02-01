@@ -26,6 +26,10 @@ npm run build
 ```sh
 npm run lint
 ```
+### db.json 시작하기
+```sh
+json-server —watch db.json
+```
 
 ## Author
 
