@@ -1,3 +1,5 @@
+<!-- pagination : 가독성을 위해 src-pages-todos-index.vue에서 페이지네이션 컴포넌트 추출! -->
+
 <template>
     <!-- pagination -->
     <nav aria-label="Page navigation example">

@@ -1,29 +1,31 @@
+<!-- 모달창 -->
+
 <template>
-    <!-- Modal -->
     <div class="modal-wrapper">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <slot name="title"></slot>
-                </h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <slot name="title"></slot>
+                    </h5>
 
-                <button type="button" class="close">
-                    <!-- x 버튼 -->
-                    <span 
-                        @click="onClose"
-                    >
-                        &times;
-                    </span>
-                </button>
+                    <button type="button" class="close">
+                        <!-- x 버튼 -->
+                        <span 
+                            @click="onClose"
+                        >
+                            &times;
+                        </span>
+                    </button>
+                </div>
 
-            </div>
-            <div class="modal-body">
-                <slot name="body"></slot>
-            </div>
-            <div class="modal-footer">
-                <slot name="footer"></slot>
-            </div>
+                <div class="modal-body">
+                    <slot name="body"></slot>
+                </div>
+                
+                <div class="modal-footer">
+                    <slot name="footer"></slot>
+                </div>
             </div>
         </div>
     </div>

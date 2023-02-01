@@ -1,51 +1,46 @@
+<!-- todo 리스트 -->
+
 <template>
-    <!-- todo 리스트 -->
-    <!-- <div 
-      v-for = "(todo, index) in todos"
-      :key = "todo.id"
-      class="card mt-2"
-    > -->
+
     <List
       :items="todos"
     >
-    <!-- <template #default="slotProps"> -->
-    <template #default="{item, index}">
-        <!-- todo 카드 -->
-        <div 
-          class="card-body p-2 d-flex align-items-center"
-          @click = "moveToPage(item.id)"
-          style="cursor:pointer;"
-        >
+      <template #default="{item, index}">
+          <!-- todo 카드 -->
+          <div 
+            class="card-body p-2 d-flex align-items-center"
+            @click = "moveToPage(item.id)"
+            style="cursor:pointer;"
+          >
 
-          <!-- todo 체크박스 -->
-          <div class="flex-grow-1">
-            <input 
-              class="ml-2 mr-2"
-              type="checkbox"
-              :checked="item.completed" 
-              @change.stop="toggleTodo(index , $event)"
-              @click.stop
-            >
-            <span
-              :class = "{ todo : item.completed }"
-            >
-              {{ item.subject }}
-            </span>
-          </div>
+            <!-- todo 체크박스 -->
+            <div class="flex-grow-1">
+              <input 
+                class="ml-2 mr-2"
+                type="checkbox"
+                :checked="item.completed" 
+                @change.stop="toggleTodo(index , $event)"
+                @click.stop
+              >
+              <span
+                :class = "{ todo : item.completed }"
+              >
+                {{ item.subject }}
+              </span>
+            </div>
 
-          <!-- todo 삭제버튼 -->
-          <div>
-            <button
-              class="btn btn-danger btn-sm"
-              @click.stop = "openModal( item.id )"
-            >
-              Delete
-            </button>
+            <!-- todo 삭제버튼 -->
+            <div>
+              <button
+                class="btn btn-danger btn-sm"
+                @click.stop = "openModal( item.id )"
+              >
+                Delete
+              </button>
+            </div>
           </div>
-        </div>
       </template>
     </List>
-    <!-- </div> -->
 
     <!-- teleport -->
     <teleport to="#modal">

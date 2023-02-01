@@ -1,3 +1,5 @@
+<!-- subject 폼 : 폼을 재사용하기위해, 따로 빼서 컴포넌트를 만듦. -->
+
 <template>
     <div class="form-group">
         <label>{{ label }}</label>

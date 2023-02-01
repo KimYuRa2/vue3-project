@@ -1,12 +1,15 @@
+<!-- todo Delete 모달 : Modal컴포 사용 -->
+
 <template>
-    <!-- Delete 모달 -->
     <Modal>
         <template #title>
           Delete Todo!!
         </template>
+
         <template #body>
           Are you sure you want to delete this todo? 
         </template>
+
         <template #footer>
             <!-- close 버튼 -->
             <button 

@@ -1,5 +1,6 @@
+<!-- Navbar : 가독성을 위해 src-App.vue에서 Navbar 추출-->
+
 <template>
-    
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- <router-link class="navbar-brand" to="/">Yura's Todo</router-link> -->
@@ -12,7 +13,6 @@
       </li>
     </ul>
   </nav>
-
 </template>
 
 <script>

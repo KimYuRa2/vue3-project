@@ -1,25 +1,12 @@
 /* vuex - toast모듈 */
 
 export default {
-    namespaced : true, // namespaced : true여야 toast를 폴더처럼 사용가능.
-    state : { // 이 안의 state들을 App.vue같은 컴포넌트에서 접근해서 가져다사용할 수 있게됨 
+    namespaced : true, // namespaced : true여야 모듈(toast)을 폴더처럼 사용가능.
+    state : { 
         /* Toast */
         toasts : [],
-        // showToast : false,
-        // toastMessage : '',// Toast message
-        // toastAlertType : '', 
-        // timeout : null
     },
     mutations : {
-        // UPDATE_TOAST_MESSAGE (state, payload) { // state를 인자로 받아와서, state에 접근해서 state를 변경함 // payload : 원하는 데이터 받아옴
-        //     state.toastMessage = payload;
-        // },
-        // UPDATE_TOAST_ALERT_TYPE (state, payload) {
-        //     state.toastAlertType = payload;
-        // },
-        // UPDATE_TOAST_STATUS (state, payload){
-        //     state.showToast = payload;
-        // },
         ADD_TOAST (state, payload) {
             state.toasts.push(payload);
         },
@@ -30,11 +17,7 @@ export default {
     },
     actions : {
         /* Toast 띄우기 */
-        tiggerToast ( { commit }, payload ) { // context객체 안의 commit
-            //message, type='success'
-            // commit('UPDATE_TOAST_MESSAGE', message);// UPDATE_TOAST_MESSAGE mutation을 commit해주고, 데이터를 payload로 넘겨줌
-            // commit('UPDATE_TOAST_ALERT_TYPE', type);
-            // commit('UPDATE_TOAST_STATUS', true);
+        tiggerToast ( { commit }, payload ) { // context객체 안의 commit,, 구조분해하여 사용
             commit('ADD_TOAST', {
                 id: Date.now(),
                 message: payload.message ,
@@ -43,9 +26,6 @@ export default {
             
             setTimeout( () => {
                 /* 초기화 */
-                // commit('UPDATE_TOAST_MESSAGE', '');
-                // commit('UPDATE_TOAST_ALERT_TYPE', '');
-                // commit('UPDATE_TOAST_STATUS', false);
                 commit('REMOVE_TOAST');
             }, 10000);
         }

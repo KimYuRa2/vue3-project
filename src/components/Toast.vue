@@ -1,3 +1,9 @@
+<!--
+    '@/composables/toast'에서 useToast를 import해서 사용함.
+    여러개의 toast들을 띄울 수 있도록  vuex state- toasts 배열을 가져와서 수정함. 
+    여러개의 toast들에 transition을 주기 위해, transition-group으로 설정함.
+-->
+
 <template>
     <div class="toast-box">
         <transition-group name="slide">
@@ -18,16 +24,6 @@
     import { useToast } from '@/composables/toast';
 export default {
 
-    // props : {
-    //     message : {
-    //         type: String,
-    //         required : true,
-    //     },
-    //     type : {
-    //         type: String,
-    //         default : 'success'
-    //     }
-    // }
     setup() {
         const { toasts } = useToast();
 

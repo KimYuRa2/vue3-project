@@ -1,3 +1,5 @@
+<!-- todo 추가하는 form - 다른컴포들로 대체함 (사용X) -->
+
 <template>
     <form
       @submit.prevent = "onSubmit"
@@ -25,7 +27,7 @@
 
       </div>
 
-      <!--유저가 아무것도 안쓰고 추가를 할때마다 에러메세지를 띄우므로(자주 바뀌므로) v-if대신 v-show를 쓰는 것이 효율적! -->
+      <!-- error -->
       <div 
         v-show="hasError" 
         style="color:red;"

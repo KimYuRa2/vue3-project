@@ -1,4 +1,4 @@
-/* vuex 모듈을 관리 */
+/* vuex 모듈 관리 파일 */
 
 import toast from './toast';
 

@@ -1,3 +1,5 @@
+<!-- Home page -->
+
 <template>
   <div>Home Page</div>
   <div>{{ count }}</div>
