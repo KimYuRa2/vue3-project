@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> vue3로 구현한 todo list입니다. todo CRUD 기능을 포함합니다.  
+> vue3를 공부하면서 구현한 todo list입니다. todo CRUD 기능을 포함합니다.  
 > 참고사이트 : https://kossiecoder.thinkific.com/courses/ 
 
 ## Install
